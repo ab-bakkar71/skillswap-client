@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
           <main className="flex-1">{children}</main>
         </div>
         <Footer />
+        <ToastContainer />
       </body>
     </html>
   );
