@@ -1,15 +1,14 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { ToastContainer } from "react-toastify";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
 
 export const metadata = {
   title: "SkillSwap - Get your tasks done by skilled freelancers",
@@ -21,12 +20,14 @@ export default function RootLayout({ children }) {
     <html
      data-theme="dark"
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${manrope.variable} h-full antialiased dark`}
     >
-      <body className="bg-background text-foreground min-h-full flex flex-col">
+      <body className="bg-brand-bg text-slate-50 min-h-full flex flex-col">
+          <Navbar/>
         <main>
           {children}
         </main>
+         <ToastContainer />
         </body>
     </html>
   );
