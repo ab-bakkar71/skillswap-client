@@ -15,7 +15,7 @@ const RegisterPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
-    const handelRegister = async(e) => {
+    const handelRegister = async (e) => {
         e.preventDefault();
         setIsLoading(true)
 
@@ -23,12 +23,12 @@ const RegisterPage = () => {
         const userData = Object.fromEntries(formData.entries());
         console.log(userData);
 
-        if(userData.password !== userData.confirmPassword){
+        if (userData.password !== userData.confirmPassword) {
             toast.error("Passwords do not match!");
             setIsLoading(false)
             return
         }
-        const {data, error} =await authClient.signUp.email({
+        const { data, error } = await authClient.signUp.email({
             name: userData.name,
             email: userData.email,
             password: userData.password,
@@ -38,12 +38,18 @@ const RegisterPage = () => {
         console.log(data);
         setIsLoading(false)
 
-        if(error){
+        if (error) {
             toast.error(error.message)
-        }else{
+        } else {
             toast.success('Registration successful ✅');
             router.push("/login");
         }
+    }
+
+    const handelGoogleRegister = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        });
     }
 
 
@@ -62,6 +68,22 @@ const RegisterPage = () => {
                         Create Your Account
                     </h1>
                     <p className="text-xs text-zinc-400 mt-1">Join thousands of professionals worldwide.</p>
+                </div>
+
+                <div className='flex flex-col gap-3 mb-4'>
+                    <Button
+                        onClick={handelGoogleRegister}
+                        className="w-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 py-2.5 rounded-xl font-medium transition-all duration-200"
+                    >
+                        <FcGoogle className="w-4 h-4 mr-1 inline" />
+                        Sign in with Google
+                    </Button>
+
+                    <div className="flex items-center my-1">
+                        <div className="flex-1 h-[1px] bg-zinc-800" />
+                        <span className="text-[10px] text-zinc-500 uppercase tracking-widest px-3">Or continue with</span>
+                        <div className="flex-1 h-[1px] bg-zinc-800" />
+                    </div>
                 </div>
 
                 <Form onSubmit={handelRegister} className="flex flex-col gap-4">
@@ -169,21 +191,7 @@ const RegisterPage = () => {
                             className='w-full bg-brand-accent hover:bg-violet-600 text-white py-2.5 rounded-xl font-medium shadow-lg shadow-violet-500/20 transition-all duration-200 cursor-pointer'
                         >
                             {isLoading ? "Creating Account..." : "Create Account"}
-                        </Button>
-
-                        <div className="flex items-center my-1">
-                            <div className="flex-1 h-[1px] bg-zinc-800" />
-                            <span className="text-[10px] text-zinc-500 uppercase tracking-widest px-3">Or</span>
-                            <div className="flex-1 h-[1px] bg-zinc-800" />
-                        </div>
-
-                        <Button
-                            // onClick={handelGoogleRegister} 
-                            className="w-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 py-2.5 rounded-xl font-medium transition-all duration-200"
-                        >
-                            <FcGoogle className="w-4 h-4 mr-1 inline" />
-                            Sign in with Google
-                        </Button>
+                        </Button>  
                     </div>
                 </Form>
 
