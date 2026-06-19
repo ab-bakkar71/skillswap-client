@@ -1,12 +1,15 @@
 "use client";
+import { authClient } from '@/app/lib/auth-client';
 import { Button, Description, FieldError, Form, Input, Label, Select, SelectItem, TextField } from '@heroui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 
 const RegisterPage = () => {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -20,14 +23,30 @@ const RegisterPage = () => {
         const userData = Object.fromEntries(formData.entries());
         console.log(userData);
 
-        if(userData.password !== userData.ConfirmPassword){
+        if(userData.password !== userData.confirmPassword){
             toast.error("Passwords do not match!");
             setIsLoading(false)
             return
         }
+        const {data, error} =await authClient.signUp.email({
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+            image: userData.image,
+            role: userData.role
+        });
+        console.log(data);
+        setIsLoading(false)
 
-        
+        if(error){
+            toast.error(error.message)
+        }else{
+            toast.success('Registration successful ✅');
+            router.push("/login");
+        }
     }
+
+
 
     return (
 
@@ -88,8 +107,8 @@ const RegisterPage = () => {
                             required
                         >
                             <option value="" disabled className="bg-zinc-950 text-zinc-600">Select your role</option>
-                            <option value="Seeker" className="bg-zinc-950 text-white">Freelancer (Looking for jobs)</option>
-                            <option value="Recruiter" className="bg-zinc-950 text-white">Client (Hiring talent)</option>
+                            <option value="Freelancer" className="bg-zinc-950 text-white">Freelancer (Looking for jobs)</option>
+                            <option value="Client" className="bg-zinc-950 text-white">Client (Hiring talent)</option>
                         </select>
                     </div>
 
