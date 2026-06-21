@@ -3,8 +3,8 @@ import Link from 'next/link';
 import React from 'react';
 import { FaCoins, FaTasks, FaUsers } from 'react-icons/fa';
 
-
 const Hero = () => {
+
     return (
         <section className='relative min-h-screen w-full text-white flex flex-col items-center justify-center px-4 py-12 overflow-hidden z-10 select-none'>
             <div className="relative z-0 bg-white/10 overflow-hidden p-px flex items-center justify-center rounded-full transition duration-300 active:scale-100 mt-12">

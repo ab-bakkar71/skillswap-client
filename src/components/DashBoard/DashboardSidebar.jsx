@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaRegFileAlt, FaRegUserCircle } from "react-icons/fa";
-import { GoProjectRoadmap, GoTasklist } from "react-icons/go";
+import { GoInbox, GoProjectRoadmap, GoTasklist } from "react-icons/go";
 import { IoIosLogOut, IoIosSearch } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import { LuUsers } from "react-icons/lu";
@@ -17,7 +17,7 @@ export function DashboardSidebar() {
 
     const { data: session } = authClient.useSession();
     const user = session?.user;
-    const role = user?.role || 'buyer'
+    const role = user?.role || 'client'
 
 
     const dashBoardItems = {
@@ -35,7 +35,7 @@ export function DashboardSidebar() {
                 { icon: MdOutlineDashboard, href: "/dashboard/client", label: "Overview" },
                 { icon: CiCirclePlus, href: "/dashboard/client/post-task", label: "Post Task" },
                 { icon: GoTasklist, href: "/dashboard/client/my-task", label: "My Task" },
-                { icon: PiCurrencyDollarBold, href: "/dashboard/client/proposal", label: "Proposals" },
+                { icon: GoInbox , href: "/dashboard/client/proposal", label: "Proposals" },
                 { icon: PiCurrencyDollarBold, href: "/dashboard/client/payment", label: "Payment" },
                 { icon: FaRegUserCircle, href: "/dashboard/client/profile", label: "Profile" },
             ],
@@ -50,7 +50,7 @@ export function DashboardSidebar() {
 
     }
 
-    const navItems = dashBoardItems[role]
+    const navItems = dashBoardItems[role] || [];
 
     const roleStyles = {
         admin: "bg-pink-500/15 text-pink-400",
@@ -66,7 +66,7 @@ export function DashboardSidebar() {
 
     const navContent = (
         <nav className="flex flex-col gap-1">
-            {navItems.map((item) => (
+            {navItems?.map((item) => (
                 <Link
                     key={item.label}
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
@@ -130,7 +130,7 @@ export function DashboardSidebar() {
     return (
         <>
             {/* for small devices */}
-            <div className="lg:hidden h-screen w-full flex items-center gap-3 px-4 py-3 border-b border-default bg-background">
+            <div className="lg:hidden h-auto w-full flex items-center gap-3 px-4 py-3 border-b border-default bg-background">
                 <Drawer>
                     <Drawer.Trigger className="p-1.5 rounded-lg hover:bg-default transition-colors">
                         <IoMenu className="size-6" />
