@@ -9,22 +9,35 @@ export const auth = betterAuth({
   },
 
   // for google
-   socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-        },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
+  },
 
-    // for role
+  // for role
 
-   user: {
-       additionalFields: {
-          role: {
-              default:'Client'
-            } 
-        }
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        defaultValue: "client",
       },
+      skills: {
+        type: "string",
+        input: true,
+      },
+      bio: {
+        type: "string",
+        input: true,
+      },
+      hourlyRate: {
+        type: "string", 
+        input: true,
+      },
+    },
+  },
 
   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.

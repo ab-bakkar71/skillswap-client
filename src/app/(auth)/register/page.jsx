@@ -1,12 +1,13 @@
 "use client";
 
 import { authClient } from '@/lib/auth-client';
-import { Button, Description, FieldError, Form, Input, Label, Select, SelectItem, TextField } from '@heroui/react';
+import { Button, Description, FieldError, Form, Input, Label, TextField } from '@heroui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { FaPalette } from 'react-icons/fa'; // ফ্রিল্যান্সার প্রোফাইল আইকন
 import { toast } from 'react-toastify';
 
 const RegisterPage = () => {
@@ -14,56 +15,63 @@ const RegisterPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [selectedRole, setSelectedRole] = useState("");
 
-
+    
     const handelRegister = async (e) => {
         e.preventDefault();
-        setIsLoading(true)
-
+        setIsLoading(true);
+        
         const formData = new FormData(e.currentTarget);
         const userData = Object.fromEntries(formData.entries());
-        console.log(userData);
-
+        
         if (userData.password !== userData.confirmPassword) {
             toast.error("Passwords do not match!");
-            setIsLoading(false)
-            return
+            setIsLoading(false);
+            return;
         }
-        const { data, error } = await authClient.signUp.email({
+        
+        const processedSkills = userData.skills 
+        ? userData.skills.split(",").map(skill => skill.trim()).filter(Boolean)
+        : [];
+        console.log(userData);
+
+        const signUpData = {
             name: userData.name,
             email: userData.email,
             password: userData.password,
             image: userData.image,
-            role: userData.role
-        });
-        console.log(data);
-        setIsLoading(false)
+            role: userData.role,
+            skills: userData.role === "freelancer" ? processedSkills : null,
+            bio: userData.role === "freelancer" ? userData.bio : null,
+            hourlyRate: userData.role === "freelancer" ? userData.hourlyRate : null,
+        };
+
+        console.log(signUpData);
+
+        const { data, error } = await authClient.signUp.email(signUpData);
+        setIsLoading(false);
 
         if (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         } else {
             toast.success('Registration successful ✅');
             router.push("/login");
         }
-    }
+    };
 
     const handelGoogleRegister = async () => {
         await authClient.signIn.social({
             provider: "google",
         });
-    }
-
-
+    };
 
     return (
-
         <div className='min-h-screen bg-black text-white flex justify-center items-center p-4 relative overflow-hidden'>
-
             <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#D470FF]/5 blur-[120px] rounded-full pointer-events-none" />
 
             <div className='w-full max-w-lg p-6 sm:p-10 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl relative z-10 animate-in fade-in zoom-in duration-300'>
-
                 <div className="text-center mb-6">
                     <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
                         Create Your Account
@@ -88,7 +96,6 @@ const RegisterPage = () => {
                 </div>
 
                 <Form onSubmit={handelRegister} className="flex flex-col gap-4">
-
                     {/* Name Field */}
                     <TextField isRequired name="name" className="w-full">
                         <Label className="text-zinc-400 text-xs font-medium">Full Name</Label>
@@ -125,8 +132,9 @@ const RegisterPage = () => {
                         <label className="text-zinc-400 text-xs font-medium">I want to join as a</label>
                         <select
                             name="role"
+                            value={selectedRole}
+                            onChange={(e) => setSelectedRole(e.target.value)}
                             className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2.5 text-sm text-zinc-400 focus:text-white focus:outline-none cursor-pointer appearance-none"
-                            defaultValue=""
                             required
                         >
                             <option value="" disabled className="bg-zinc-950 text-zinc-600">Select your role</option>
@@ -134,6 +142,38 @@ const RegisterPage = () => {
                             <option value="client" className="bg-zinc-950 text-white">Client (Hiring talent)</option>
                         </select>
                     </div>
+
+                    {selectedRole === "freelancer" && (
+                        <div className="p-5 rounded-2xl bg-[#10b981]/5 border border-[#10b981]/20 flex flex-col gap-4 animate-in slide-in-from-top duration-300">
+
+
+                            <div className="flex items-center gap-2 text-[#10b981] font-semibold text-sm mb-1">
+                                <FaPalette className="w-4 h-4" />
+                                <span>Freelancer Profile Extra Information</span>
+                            </div>
+
+                            {/* Skills Field */}
+                            <TextField isRequired name="skills">
+                                <Label className="text-zinc-400 text-xs font-medium">Skills <span className="text-zinc-500 text-[10px]">(comma-separated)</span></Label>
+                                <Input placeholder="React, Node.js, Design" className="bg-zinc-900/60 border border-zinc-800 text-white rounded-xl" />
+                                <FieldError className="text-rose-400 text-xs mt-1" />
+                            </TextField>
+
+                            {/* Bio Field */}
+                            <TextField isRequired name="bio">
+                                <Label className="text-zinc-400 text-xs font-medium">Bio</Label>
+                                <Input placeholder="Tell clients about yourself..." className="bg-zinc-900/60 border border-zinc-800 text-white rounded-xl" />
+                                <FieldError className="text-rose-400 text-xs mt-1" />
+                            </TextField>
+
+                            {/* Hourly Rate Field */}
+                            <TextField name="hourlyRate" type="number">
+                                <Label className="text-zinc-400 text-xs font-medium">Hourly Rate (USD) <span className="text-zinc-500 text-[10px]">(optional)</span></Label>
+                                <Input placeholder="50" className="bg-zinc-900/60 border border-zinc-800 text-white rounded-xl" />
+                                <FieldError className="text-rose-400 text-xs mt-1" />
+                            </TextField>
+                        </div>
+                    )}
 
                     {/* Password & Confirm Password Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -177,14 +217,12 @@ const RegisterPage = () => {
                             </div>
                             <FieldError className="text-rose-400 text-xs mt-1" />
                         </TextField>
-
                     </div>
 
                     <Description className="text-zinc-500 text-[11px] mt-1">
                         Must be at least 8 characters with 1 uppercase and 1 number
                     </Description>
 
-                    {/* Action Buttons */}
                     <div className="flex flex-col gap-3 mt-4">
                         <Button
                             type="submit"
@@ -192,7 +230,7 @@ const RegisterPage = () => {
                             className='w-full bg-brand-accent hover:bg-violet-600 text-white py-2.5 rounded-xl font-medium shadow-lg shadow-violet-500/20 transition-all duration-200 cursor-pointer'
                         >
                             {isLoading ? "Creating Account..." : "Create Account"}
-                        </Button>  
+                        </Button>
                     </div>
                 </Form>
 
