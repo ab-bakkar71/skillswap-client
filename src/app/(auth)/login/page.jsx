@@ -1,6 +1,7 @@
 "use client"
 
-import { authClient } from '@/app/lib/auth-client';
+
+import { authClient } from '@/lib/auth-client';
 import { Button, Form, Input, Label, TextField } from '@heroui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,7 +22,7 @@ const loginPage = () => {
         setIsLoading(true)
         const formData = new FormData(e.currentTarget)
         const userData = Object.fromEntries(formData.entries());
-        console.log(userData);
+        
 
         const { data, error } = await authClient.signIn.email({
             email: userData.email,
@@ -32,7 +33,7 @@ const loginPage = () => {
             toast.error(error.message || "Invalid email or password");
         } else {
             toast.success('Welcome back! Login successful ✅');
-            router.push("/dashboard")
+            router.push("/")
         }
     }
 

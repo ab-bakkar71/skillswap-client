@@ -23,15 +23,21 @@ export default function RootLayout({ children }) {
     <html
       data-theme="dark"
       lang="en"
-      className={`${manrope.variable} antialiased dark`}
-      style={{ colorScheme: "dark" }}>
-      <body className="bg-brand-bg text-slate-50 min-h-screen flex flex-col relative overflow-x-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none z-0" />
-        <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] bg-[#D470FF]/5 blur-[120px] rounded-full pointer-events-none z-0" />
-        <div className="relative flex flex-col min-h-screen">
+      className={`${manrope.variable} h-full antialiased`}
+      style={{ colorScheme: "dark" }}
+    >
+      <body className="min-h-screen bg-brand-bg text-slate-50 flex flex-col relative overflow-x-hidden">
+        {/* Glow blobs wrapper - clips blobs so they never cause scroll */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-900/10 blur-[120px] rounded-full" />
+          <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] bg-[#D470FF]/5 blur-[120px] rounded-full" />
+        </div>
+
+        <div className="relative flex flex-col flex-1 z-10">
           <Navbar />
           <main className="flex-1">{children}</main>
         </div>
+
         <Footer />
         <ToastContainer />
       </body>

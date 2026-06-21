@@ -1,12 +1,12 @@
-import Image from 'next/image';
+
 import Link from 'next/link';
 import React from 'react';
-import { FaCoins, FaSearch, FaTasks, FaUserPlus, FaUsers } from 'react-icons/fa';
-import { PiMouseSimpleLight } from 'react-icons/pi';
+import { FaCoins, FaTasks, FaUsers } from 'react-icons/fa';
+
 
 const Hero = () => {
     return (
-        <section className='relative min-h-screen w-full text-white flex flex-col items-center justify-center font-manrope px-4 py-12 overflow-hidden z-10 select-none'>
+        <section className='relative min-h-screen w-full text-white flex flex-col items-center justify-center px-4 py-12 overflow-hidden z-10 select-none'>
             <div className="relative z-0 bg-white/10 overflow-hidden p-px flex items-center justify-center rounded-full transition duration-300 active:scale-100 mt-12">
                 <div className="flex items-center justify-center gap-3 pl-4 pr-6 py-2.5 text-white rounded-full font-medium bg-zinc-950/80 backdrop-blur">
                     <div className="relative flex size-3.5 items-center justify-center">
@@ -44,7 +44,6 @@ const Hero = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-3xl mx-auto mt-16 px-4 relative z-20">
 
-                {/* স্ট্যাটস ১: মোট কাজের সংখ্যা */}
                 <div className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur hover:border-brand-accent/50 shadow-md shadow-violet-500/5 transition-all duration-300">
                     <div className="p-3 rounded-xl bg-brand-accent/10 text-brand-accent">
                         <FaTasks className="w-5 h-5" />
@@ -55,7 +54,6 @@ const Hero = () => {
                     </div>
                 </div>
 
-                {/* স্ট্যাটস ২: মোট ইউজার */}
                 <div className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur hover:border-brand-accent/50 shadow-md shadow-violet-500/5 transition-all duration-300">
                     <div className="p-3 rounded-xl bg-brand-accent/10 text-brand-accent">
                         <FaUsers className="w-5 h-5" />
@@ -65,8 +63,6 @@ const Hero = () => {
                         <p className="text-xs text-zinc-400 font-medium">Total Active Users</p>
                     </div>
                 </div>
-
-                {/* স্ট্যাটস ৩: সফল পেমেন্ট/লেনদেন */}
                 <div className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur hover:border-brand-accent/50 shadow-md shadow-violet-500/5 transition-all duration-300">
                     <div className="p-3 rounded-xl bg-brand-accent/10 text-brand-accent">
                         <FaCoins className="w-5 h-5" />
@@ -81,7 +77,7 @@ const Hero = () => {
 
 
 
-            <div className="scroll-down flex flex-col items-center gap-3 mt-auto pt-16 pb-3 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+            <div className="scroll-down flex flex-col items-center gap-3 mt-auto pt-16 pb-6 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 9A7 7 0 1 0 5 9v6a7 7 0 1 0 14 0zm-7-3v4" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

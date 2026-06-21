@@ -1,5 +1,6 @@
 "use client";
-import { authClient } from '@/app/lib/auth-client';
+
+import { authClient } from '@/lib/auth-client';
 import { Button, Description, FieldError, Form, Input, Label, Select, SelectItem, TextField } from '@heroui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -129,8 +130,8 @@ const RegisterPage = () => {
                             required
                         >
                             <option value="" disabled className="bg-zinc-950 text-zinc-600">Select your role</option>
-                            <option value="Freelancer" className="bg-zinc-950 text-white">Freelancer (Looking for jobs)</option>
-                            <option value="Client" className="bg-zinc-950 text-white">Client (Hiring talent)</option>
+                            <option value="freelancer" className="bg-zinc-950 text-white">Freelancer (Looking for jobs)</option>
+                            <option value="client" className="bg-zinc-950 text-white">Client (Hiring talent)</option>
                         </select>
                     </div>
 
