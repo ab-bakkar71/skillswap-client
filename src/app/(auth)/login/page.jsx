@@ -22,7 +22,7 @@ const loginPage = () => {
         setIsLoading(true)
         const formData = new FormData(e.currentTarget)
         const userData = Object.fromEntries(formData.entries());
-        
+
 
         const { data, error } = await authClient.signIn.email({
             email: userData.email,
@@ -32,8 +32,15 @@ const loginPage = () => {
         if (error) {
             toast.error(error.message || "Invalid email or password");
         } else {
+            const userRole = data.user?.role;
             toast.success('Welcome back! Login successful ✅');
-            router.push("/")
+            if (userRole === "admin") {
+                router.push("/dashboard/admin");
+            } else if (userRole === "freelancer") {
+                router.push("/dashboard/freelancer");
+            } else {
+                router.push("/"); // Clients বা সাধারণ ইউজারদের হোমে পাঠাবে
+            }
         }
     }
 
@@ -60,21 +67,21 @@ const loginPage = () => {
                     <p className="text-xs text-zinc-400 mt-1">Welcome back! Please enter your credentials.</p>
                 </div>
 
-              <div className='flex flex-col gap-3 mb-4'>
-                  <Button
-                    onClick={handelGoogleSignIn}
-                    className="w-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 py-2.5 rounded-xl font-medium transition-all duration-200"
-                >
-                    <FcGoogle className="w-4 h-4 mr-1 inline" />
-                    Sign in with Google
-                </Button>
+                <div className='flex flex-col gap-3 mb-4'>
+                    <Button
+                        onClick={handelGoogleSignIn}
+                        className="w-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 py-2.5 rounded-xl font-medium transition-all duration-200"
+                    >
+                        <FcGoogle className="w-4 h-4 mr-1 inline" />
+                        Sign in with Google
+                    </Button>
 
-                <div className="flex items-center my-1">
-                    <div className="flex-1 h-[1px] bg-zinc-800" />
-                    <span className="text-[10px] text-zinc-500 uppercase tracking-widest px-3">Or continue with</span>
-                    <div className="flex-1 h-[1px] bg-zinc-800" />
+                    <div className="flex items-center my-1">
+                        <div className="flex-1 h-[1px] bg-zinc-800" />
+                        <span className="text-[10px] text-zinc-500 uppercase tracking-widest px-3">Or continue with</span>
+                        <div className="flex-1 h-[1px] bg-zinc-800" />
+                    </div>
                 </div>
-              </div>
 
                 <Form onSubmit={handelLogin} className="flex flex-col gap-4" >
 

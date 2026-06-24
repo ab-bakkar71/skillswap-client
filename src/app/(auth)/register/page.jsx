@@ -17,24 +17,24 @@ const RegisterPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [selectedRole, setSelectedRole] = useState("");
 
-    
+
     const handelRegister = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        
+
         const formData = new FormData(e.currentTarget);
         const userData = Object.fromEntries(formData.entries());
-        
+
         if (userData.password !== userData.confirmPassword) {
             toast.error("Passwords do not match!");
             setIsLoading(false);
             return;
         }
-        
-        const processedSkills = userData.skills 
-        ? userData.skills.split(",").map(skill => skill.trim()).filter(Boolean)
-        : [];
-        
+
+        const processedSkills = userData.skills
+            ? userData.skills.split(",").map(skill => skill.trim()).filter(Boolean)
+            : [];
+
 
         const signUpData = {
             name: userData.name,
@@ -47,16 +47,19 @@ const RegisterPage = () => {
             hourlyRate: userData.role === "freelancer" ? userData.hourlyRate : null,
         };
 
-        console.log(signUpData);
-
         const { data, error } = await authClient.signUp.email(signUpData);
         setIsLoading(false);
 
         if (error) {
             toast.error(error.message);
         } else {
+            const userRole = data.user?.role;
             toast.success('Registration successful ✅');
-            router.push("/login");
+            if (userRole === "freelancer") {
+                router.push("/dashboard/freelancer");
+            } else {
+                router.push("/");
+            }
         }
     };
 
