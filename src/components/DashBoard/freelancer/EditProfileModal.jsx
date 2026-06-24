@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, FieldError, Input, Label, Modal, Surface, TextField } from "@heroui/react";
-import { BiEnvelope } from 'react-icons/bi';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { updateProfile } from '@/lib/actions/freelancer';
+import { TbUserEdit } from 'react-icons/tb';
 
 const EditProfileModal = ({ currentUser }) => {
   const router = useRouter();
@@ -32,10 +32,10 @@ const EditProfileModal = ({ currentUser }) => {
        if (result && (result.modifiedCount > 0 || result.matchedCount > 0)) {
           console.log("✅ Update Success:", result);
           
-          // এখানে চাইলে একটি কাস্টম টোস্ট বা অ্যালার্ট দেখাতে পারেন
+          
           toast.success("Profile updated successfully!"); 
           
-          router.refresh(); // 🚀 পেজ রিফ্রেশ করে নতুন ডাটাবেজ ডাটা ইউআই-তে দেখাবে
+          router.refresh();
        } else {
           toast.error("No changes made or failed to update.");
        }
@@ -45,7 +45,7 @@ const EditProfileModal = ({ currentUser }) => {
   return (
     <div>
       <Modal>
-        {/* মডাল ট্রিগার বাটন */}
+       
         <Button className="px-4 py-1.5 text-xs font-semibold rounded-xl bg-brand-accent hover:bg-violet-600 border border-brand-accent/20 text-white transition-all duration-200 cursor-pointer shadow-lg shadow-violet-500/10 active:scale-95">
           Edit Profile
         </Button>
@@ -56,7 +56,7 @@ const EditProfileModal = ({ currentUser }) => {
               <Modal.CloseTrigger />
               <Modal.Header>
                 <Modal.Icon className="bg-brand-accent/10 text-brand-accent">
-                  <BiEnvelope className="size-5" />
+                  <TbUserEdit className="size-5" />
                 </Modal.Icon>
                 <Modal.Heading>Edit Your Profile</Modal.Heading>
               </Modal.Header>
