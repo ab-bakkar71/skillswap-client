@@ -28,7 +28,6 @@ export default function RootLayout({ children }) {
       
     >
       <body className="min-h-screen bg-brand-bg text-slate-50 flex flex-col relative overflow-x-hidden">
-        {/* Glow blobs wrapper - clips blobs so they never cause scroll */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-900/10 blur-[120px] rounded-full" />
           <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] bg-[#D470FF]/5 blur-[120px] rounded-full" />
