@@ -1,10 +1,13 @@
 "use client"
 import { postTask } from '@/lib/actions/client';
 import { Select, Button, Calendar, DateField, DatePicker, Description, FieldError, Fieldset, Form, Input, Label, ListBox, Surface, TextArea, TextField } from '@heroui/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
-const PostTaskClient = () => {
+const PostTaskClient = ({ user }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const handelTaskPost = async (e) => {
         e.preventDefault();
@@ -18,13 +21,18 @@ const PostTaskClient = () => {
             budget: Number(rawData.budget),
             category: rawData.category || "web-fixing",
             deadline: rawData.deadline ? rawData.deadline.toString() : "",
-            status: "open"
+            status: "open",
+            clientEmail: user.email,
+            clientName: user.name
         }
-
-        console.log(finalData);
         const res = await postTask(finalData)
-
         console.log(res);
+        if(res.insertedId){
+            toast.success('Task Added Successful!');
+            router.push('/dashboard/client/my-task')
+        }else{
+            toast.error(error.message)
+        }
         setIsLoading(false)
     }
 
@@ -32,7 +40,6 @@ const PostTaskClient = () => {
     return (
         <div>
             <div className="flex items-center justify-center rounded-3xl p-4 sm:p-6 md:p-10 min-h-[calc(100vh-80px)] w-full">
-
                 <Surface className="w-full max-w-2xl bg-zinc-900/40 border border-brand-border/60 rounded-2xl p-6 md:p-8 backdrop-blur-xl shadow-2xl shadow-violet-500/5">
                     <Form onSubmit={handelTaskPost} className="w-full">
                         <Fieldset className="w-full space-y-6">

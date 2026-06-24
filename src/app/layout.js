@@ -23,8 +23,9 @@ export default function RootLayout({ children }) {
     <html
       data-theme="dark"
       lang="en"
-      className={`${manrope.variable} h-full antialiased`}
-      style={{ colorScheme: "dark" }}
+      className={`${manrope.variable} h-full antialiased dark`}
+      suppressHydrationWarning
+      
     >
       <body className="min-h-screen bg-brand-bg text-slate-50 flex flex-col relative overflow-x-hidden">
         {/* Glow blobs wrapper - clips blobs so they never cause scroll */}

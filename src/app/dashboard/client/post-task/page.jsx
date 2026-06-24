@@ -1,12 +1,12 @@
 import PostTaskClient from "@/components/DashBoard/Client/PostTaskClient";
+import { getUserSession } from "@/lib/core/session";
+const PostTaskPage = async() => {
+  const user = await getUserSession()
 
 
-
-
-const PostTaskPage = () => {
     return (
       <>
-      <PostTaskClient/>
+      <PostTaskClient user={user}/>
       </>
     );
 };

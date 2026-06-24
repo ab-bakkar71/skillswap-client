@@ -34,7 +34,7 @@ const RegisterPage = () => {
         const processedSkills = userData.skills 
         ? userData.skills.split(",").map(skill => skill.trim()).filter(Boolean)
         : [];
-        console.log(userData);
+        
 
         const signUpData = {
             name: userData.name,
