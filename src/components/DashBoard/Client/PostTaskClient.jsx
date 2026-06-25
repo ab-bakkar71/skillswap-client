@@ -26,7 +26,6 @@ const PostTaskClient = ({ user }) => {
             clientName: user.name
         }
         const res = await postTask(finalData)
-        console.log(res);
         if(res.insertedId){
             toast.success('Task Added Successful!');
             router.push('/dashboard/client/my-task')

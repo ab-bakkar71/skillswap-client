@@ -26,7 +26,7 @@ export function DashboardSidebar() {
                 { icon: MdOutlineDashboard, href: "/dashboard/freelancer", label: "Overview" },
                 { icon: IoIosSearch, href: "/tasks", label: "Browse Tasks" },
                 { icon: GoProjectRoadmap, href: "/dashboard/freelancer/active-project", label: "Active Project" },
-                { icon: FaRegFileAlt, href: "/dashboard/freelancer/Proposals", label: "My Proposals" },
+                { icon: FaRegFileAlt, href: "/dashboard/freelancer/proposals", label: "My Proposals" },
                 { icon: PiCurrencyDollarBold, href: "/dashboard/freelancer/earn", label: "Earn" },
                 { icon: FaRegUserCircle, href: "/dashboard/freelancer/profile", label: "Profile" },
             ],

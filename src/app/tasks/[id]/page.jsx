@@ -1,13 +1,17 @@
 import SubmitProposal from '@/components/DashBoard/freelancer/SubmitProposal';
 import { getTaskById } from '@/lib/api/freelancer';
-import { Button, Card, Input, TextArea } from '@heroui/react';
+import { getUserSession } from '@/lib/core/session';
+import { Card } from '@heroui/react';
 import React from 'react';
 import { IoLogoUsd } from 'react-icons/io';
-import { IoCalendarNumberOutline, IoMailOutline, IoPaperPlaneOutline, IoTimeOutline } from 'react-icons/io5';
+import { IoCalendarNumberOutline, IoMailOutline, IoTimeOutline } from 'react-icons/io5';
 
 const taskById = async ({ params }) => {
     const { id } = await params;
     const task = await getTaskById(id);
+
+    const user = await getUserSession();
+
 
     if (!task) {
         return (
@@ -53,7 +57,19 @@ const taskById = async ({ params }) => {
 
                     {/* Submit a Proposal */}
 
-                    <SubmitProposal />
+                    <div>
+                        {
+                            user.role === "client" ? (
+                                <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+                                    <p className="text-zinc-500 text-xs font-medium">
+                                        As a client, you can manage this task, not submit proposals.
+                                    </p>
+                                </div>
+                            ) : (
+                                <SubmitProposal task={task} user={user}/>
+                            )
+                        }
+                    </div>
 
                     <Card className="bg-zinc-950/40 border border-zinc-900 p-6 rounded-2xl backdrop-blur-xl">
                         <div className="space-y-5">

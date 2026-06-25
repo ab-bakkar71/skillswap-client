@@ -5,3 +5,6 @@ export const getMyTask = async(email) => {
     return serverFetch(`/api/task/${email}`)
 }
 
+export const getFeaturedTasks = async()=>{
+    return serverFetch('/api/featured-task/open');
+}
