@@ -1,10 +1,11 @@
 import { Card } from '@heroui/react';
+import Link from 'next/link';
 import React from 'react';
 import { GoGitCommit } from 'react-icons/go';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 
-const MyTaskClient = ({tasks}) => {
+const MyTaskClient = ({tasks, }) => {
     return (
         <section className="w-full max-w-7xl mx-auto px-4 py-8 text-white">
             <div className="mb-8 border-b border-zinc-800/60 pb-6">
@@ -18,9 +19,9 @@ const MyTaskClient = ({tasks}) => {
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-full">
                 {
                     tasks.map((task, i) => (
+                        <Link key={i} href={`/dashboard/client/my-task/${task._id}`}>
                         <Card
-                            key={i}
-                            className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5 hover:scale-105 transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer"
+                            className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5  transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer"
                             variant="secondary"
                         >
                             <div className="flex items-start justify-between gap-4 w-full">
@@ -71,11 +72,12 @@ const MyTaskClient = ({tasks}) => {
 
                                 <div className="flex items-center gap-1 text-zinc-500 text-xs font-medium">
                                     <GoGitCommit className="w-3.5 h-3.5 rotate-90 text-zinc-600" />
-                                    <span>1 proposal</span>
+                                    <span>2 proposal</span>
                                 </div>
 
                             </div>
                         </Card>
+                        </Link>
                     ))
                 }
             </div>

@@ -61,7 +61,7 @@ const taskById = async ({ params }) => {
                         {
                             user.role === "client" ? (
                                 <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
-                                    <p className="text-zinc-500 text-xs font-medium">
+                                    <p className="text-red-500 text-xs font-medium">
                                         As a client, you can manage this task, not submit proposals.
                                     </p>
                                 </div>

@@ -16,3 +16,7 @@ export const getFreelancer = async() => {
 export const getFreelancerById = async(id) => {
         return serverFetch(`/api/freelancer/${id}`)
 }
+
+export const getProposal = async(email) => {
+        return serverFetch(`/api/proposal/freelancer/${email}`)
+}

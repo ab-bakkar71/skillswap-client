@@ -5,7 +5,6 @@ import React from 'react';
 
 const FeaturedTasks = async () => {
     const tasks = await getFeaturedTasks();
-    console.log(tasks);
     return (
         <section className='w-full bg-black text-white py-24 px-6 md:px-16 lg:px-24 font-manrope overflow-hidden z-10 select-none'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto'>
