@@ -6,8 +6,6 @@ import { IoCalendarNumberOutline } from 'react-icons/io5';
 
 const ProposalTable = ({ proposals }) => {
 
-    console.log(proposals);
-
 
     return (
         <section className="w-full max-w-7xl mx-auto px-4 py-8 text-white">
@@ -43,16 +41,16 @@ const ProposalTable = ({ proposals }) => {
 
 
                                 <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === 'pending'
-                                        ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse' // পেন্ডিং এর জন্য হালকা গ্লো বা পালস
+                                        ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse' 
                                         : proposal.status === 'accepted'
-                                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' // এক্সেপ্টেড এর জন্য গ্রিন
-                                            : 'bg-rose-500/10 border-rose-500/30 text-rose-400' // রিজেক্টেড এর জন্য রেড
+                                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
+                                            : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
                                     }`}>
                                     {proposal.status === 'pending' && 'Pending'}
                                     {proposal.status === 'accepted' && 'Accepted'}
                                     {proposal.status === 'rejected' && 'Rejected'}
 
-                                    {/* ডাটাবেজে যদি ডিফল্ট কোনো স্ট্যাটাস না থাকে তবে সেফটি ফলব্যাক */}
+                                
                                     {!proposal.status && 'Pending'}
                                 </span>
                             </div>

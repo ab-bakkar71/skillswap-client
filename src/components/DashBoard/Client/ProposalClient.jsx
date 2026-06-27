@@ -1,11 +1,51 @@
+"use client";
 import { Button, Card } from '@heroui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { FaXmark } from 'react-icons/fa6';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline, IoCheckmarkSharp } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 
-const ProposalClient = ({proposals}) => {
+
+const ProposalClient = ({ proposals }) => {
+    const [loadingProposalId, setLoadingProposalId] = useState(null);
+
+    const handleAcceptTask = async (proposal) => {
+        setLoadingProposalId(proposal._id);
+        
+        try {
+            const response = await fetch('/api/checkout_sessions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    taskId: proposal.taskId,
+                    taskTitle: proposal.taskTitle,
+                    proposedBudget: proposal.proposedBudget,
+                    freelancerName: proposal.freelancerName,
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+            if (data.url) {
+                toast.success("Redirecting to secure payment checkout... 💳");
+               
+                window.location.href = data.url;
+            } else {
+                toast.error(data.error || "Failed to create checkout session.");
+            }
+        } catch (error) {
+            console.error("Payment initiation error:", error);
+            toast.error("Something went wrong. Please try again! ❌");
+        } finally {
+            setLoadingProposalId(null);
+        }
+    };
+
     return (
         <div>
             <section className="w-full max-w-7xl mx-auto px-4 py-8 text-white">
@@ -14,16 +54,18 @@ const ProposalClient = ({proposals}) => {
                         My Proposals
                     </h1>
                     <p className='text-xs md:text-sm text-zinc-400 mt-2 max-w-3xl leading-relaxed'>
-                        {proposals.length} proposal.
+                        {proposals?.length || 0} {proposals?.length === 1 ? 'proposal' : 'proposals'}.
                     </p>
                 </div>
+                
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-full">
-                    {
-                        proposals.map((proposal) => (
+                    {proposals?.map((proposal) => {
+                        const isProcessing = loadingProposalId === proposal._id;
+
+                        return (
                             <Card
                                 key={proposal._id}
                                 className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5 transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer"
-                                variant="secondary"
                             >
                                 <div className="flex items-start justify-between gap-4 w-full">
                                     <div className="space-y-1.5 flex-1">
@@ -39,23 +81,20 @@ const ProposalClient = ({proposals}) => {
                                         </p>
                                     </div>
 
-
-                                    <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === 'pending'
-                                        ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse' 
-                                        : proposal.status === 'accepted'
-                                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-                                            : 'bg-rose-500/10 border-rose-500/30 text-rose-400' 
-                                        }`}>
-                                        {proposal.status === 'pending' && 'Pending'}
-                                        {proposal.status === 'accepted' && 'Accepted'}
-                                        {proposal.status === 'rejected' && 'Rejected'}
-                                        {!proposal.status && 'Pending'}
+                                    <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${
+                                        proposal.status === 'pending'
+                                            ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse'
+                                            : proposal.status === 'accepted'
+                                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                                                : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
+                                    }`}>
+                                        {proposal.status === 'accepted' ? 'Accepted' : proposal.status === 'rejected' ? 'Rejected' : 'Pending'}
                                     </span>
                                 </div>
 
                                 <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-zinc-800/40 w-full mt-auto">
                                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                                        <div className="text-xs flex items-center gap-.5 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md font-semibold">
+                                        <div className="text-xs flex items-center gap-0.5 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md font-semibold">
                                             Bid : <IoLogoUsd />
                                             <span>{proposal.proposedBudget}</span>
                                         </div>
@@ -64,7 +103,6 @@ const ProposalClient = ({proposals}) => {
                                             {proposal.estimatedDays} days
                                         </p>
 
-
                                         <div className="flex items-center gap-1.5 text-zinc-400 text-xs font-semibold">
                                             <IoCalendarNumberOutline className="w-3.5 h-3.5 text-zinc-500" />
                                             <span>{proposal?.createdAt ? new Date(proposal.createdAt).toLocaleDateString('en-GB') : 'N/A'}</span>
@@ -72,25 +110,24 @@ const ProposalClient = ({proposals}) => {
                                     </div>
 
                                     <div className="flex items-center gap-2">
+                                      
                                         <Button
                                             size="sm"
-                                            variant="flat"
                                             color="success"
-                                            // disabled={isRejecting}
-                                            // onClick={() => handleStatusChange('accepted', setIsAccepting)}
+                                            variant="flat"
+                                            isLoading={isProcessing}
+                                            onClick={() => handleAcceptTask(proposal)}
                                             className="font-bold text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
                                         >
-                                            <IoCheckmarkSharp className="text-sm" />
+                                            {!isProcessing && <IoCheckmarkSharp className="text-sm" />}
                                             Accept
                                         </Button>
 
-                                        
                                         <Button
                                             size="sm"
                                             variant="flat"
                                             color="danger"
-                                            // disabled={isAccepting}
-                                            // onClick={() => handleStatusChange('rejected', setIsRejecting)}
+                                            disabled={isProcessing}
                                             className="font-bold text-xs bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
                                         >
                                             <FaXmark className="text-xs" />
@@ -99,8 +136,8 @@ const ProposalClient = ({proposals}) => {
                                     </div>
                                 </div>
                             </Card>
-                        ))
-                    }
+                        );
+                    })}
                 </div>
             </section>
         </div>

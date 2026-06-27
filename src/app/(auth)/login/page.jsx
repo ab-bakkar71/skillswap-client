@@ -39,7 +39,7 @@ const loginPage = () => {
             } else if (userRole === "freelancer") {
                 router.push("/dashboard/freelancer");
             } else {
-                router.push("/"); // Clients বা সাধারণ ইউজারদের হোমে পাঠাবে
+                router.push("/"); 
             }
         }
     }
@@ -53,11 +53,11 @@ const loginPage = () => {
 
     return (
         <div className='min-h-screen bg-black text-white flex justify-center items-center p-4 relative overflow-hidden'>
-            {/* Background Atmosphere Lights - matching register page */}
+        
             <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#D470FF]/5 blur-[120px] rounded-full pointer-events-none" />
 
-            {/* Glassmorphic Form Wrapper */}
+            
             <div className='w-full max-w-md p-6 sm:p-10 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl relative z-10 animate-in fade-in zoom-in duration-300'>
 
                 <div className="text-center mb-8">

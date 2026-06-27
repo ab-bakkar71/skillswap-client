@@ -5,7 +5,7 @@ import { GoGitCommit } from 'react-icons/go';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 
-const MyTaskClient = ({tasks, }) => {
+const MyTaskClient = ({ tasks }) => {
     return (
         <section className="w-full max-w-7xl mx-auto px-4 py-8 text-white">
             <div className="mb-8 border-b border-zinc-800/60 pb-6">

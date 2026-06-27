@@ -9,7 +9,6 @@ import { IoCalendarNumberOutline, IoMailOutline, IoTimeOutline } from 'react-ico
 const taskById = async ({ params }) => {
     const { id } = await params;
     const task = await getTaskById(id);
-
     const user = await getUserSession();
 
 
