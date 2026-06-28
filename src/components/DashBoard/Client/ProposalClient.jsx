@@ -21,6 +21,7 @@ const ProposalClient = ({ proposals }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    proposalId: proposal._id,
                     taskId: proposal.taskId,
                     taskTitle: proposal.taskTitle,
                     proposedBudget: proposal.proposedBudget,
@@ -29,7 +30,7 @@ const ProposalClient = ({ proposals }) => {
             });
 
             const data = await response.json();
-            console.log(data);
+            
 
             if (data.url) {
                 toast.success("Redirecting to secure payment checkout... 💳");
