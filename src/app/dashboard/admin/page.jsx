@@ -1,9 +1,13 @@
+import AdminStatics from '@/components/DashBoard/admin/AdminStatics';
+import { getStaticData } from '@/lib/api/admin';
 import React from 'react';
 
-const adminDashboardPage = () => {
+const adminDashboardPage = async() => {
+    const data = await getStaticData();
+    console.log(data);
     return (
         <div>
-            Admin
+            <AdminStatics data={data}/>
         </div>
     );
 };
