@@ -1,13 +1,12 @@
-import { getUserSession } from '@/lib/core/session';
 import { Card } from '@heroui/react';
 import React from 'react';
 import { BiBriefcase } from 'react-icons/bi';
 import { BsActivity } from 'react-icons/bs';
 import { FaDollarSign, FaUser, FaUserSecret } from 'react-icons/fa';
 
-const AdminStatics = async({data}) => {
+const AdminStatics = async ({ data }) => {
 
-    const stats = [
+  const stats = [
     {
       id: 1,
       title: "Total Users",
@@ -33,7 +32,7 @@ const AdminStatics = async({data}) => {
     {
       id: 3,
       title: "Total Revenue (USD)",
-
+      value: data?.totalRevenue,
       percentage: "82%",
       timeline: "adoption rate",
       isPositive: null,
@@ -53,9 +52,9 @@ const AdminStatics = async({data}) => {
       glowColor: "hover:shadow-purple-500/5"
     }
   ];
-    return (
-        <div className="w-full font-manrope space-y-4">
-   
+  return (
+    <div className="w-full font-manrope space-y-4">
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full p-10">
         {stats.map((item) => (
           <Card
@@ -73,7 +72,7 @@ const AdminStatics = async({data}) => {
               <p className="text-xs font-semibold text-zinc-400 tracking-wide">
                 {item.title}
               </p>
-              
+
               <p className="text-[11px] font-medium text-zinc-500 mt-1 flex items-center gap-1 flex-wrap">
                 <span className={item.isPositive === true || item.isPositive === null ? "text-emerald-400 font-bold" : "text-zinc-400"}>
                   {item.percentage}
@@ -85,7 +84,7 @@ const AdminStatics = async({data}) => {
         ))}
       </div>
     </div>
-    );
+  );
 };
 
 export default AdminStatics;

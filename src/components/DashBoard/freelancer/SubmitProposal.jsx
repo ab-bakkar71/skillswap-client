@@ -59,7 +59,7 @@ const SubmitProposal = ({ task, user }) => {
           </TextField>
           <TextField isRequired className="w-full max-w-64" name="estimatedDays" type="number">
             <Label>Estimated Days</Label>
-            <Input isRequired placeholder="e.g. 3" variant="bordered" className="w-full text-white" />
+            <Input placeholder="e.g. 3" variant="bordered" className="w-full text-white" />
             <FieldError className="text-rose-400 text-xs mt-1" />
           </TextField>
 
@@ -80,8 +80,12 @@ const SubmitProposal = ({ task, user }) => {
           <FieldError className="text-rose-400 text-xs mt-1" />
         </div>
 
-        <Button type='submit' className="w-full bg-brand-accent hover:bg-violet-600 text-white font-bold h-11 rounded-xl transition-all duration-200 shadow-lg shadow-violet-500/10 active:scale-98">
-          <IoPaperPlaneOutline className="text-brand-accent w-5 h-5" />
+        <Button
+          type="submit"
+          isDisabled={task.status !== "open"}
+          className="w-full bg-brand-accent hover:bg-violet-600 text-white font-bold h-11 rounded-xl"
+        >
+          <IoPaperPlaneOutline className="w-5 h-5" />
           {isLoading ? "Submitting Proposal..." : "Submit Proposal"}
         </Button>
       </form>

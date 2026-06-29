@@ -10,7 +10,7 @@ const CommunityHighlights = () => {
         rating: "5.0",
         completedTasks: 42,
         skills: ["Next.js", "Tailwind CSS", "Figma", "Node.js"],
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200&h=200" // ডামি প্রোফাইল পিকচার
+        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200&h=200" 
     };
     return (
         <section className="relative w-full text-white py-20 px-6 md:px-16 lg:px-24 font-manrope overflow-hidden z-10 select-none">

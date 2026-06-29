@@ -57,17 +57,21 @@ const taskById = async ({ params }) => {
                     {/* Submit a Proposal */}
 
                     <div>
-                        {
-                            user.role === "client" ? (
-                                <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
-                                    <p className="text-red-500 text-xs font-medium">
-                                        As a client, you can manage this task, not submit proposals.
-                                    </p>
-                                </div>
-                            ) : (
-                                <SubmitProposal task={task} user={user}/>
-                            )
-                        }
+                        {!user ? (
+                            <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+                                <p className="text-yellow-500 text-sm">
+                                    Please login as a freelancer to submit a proposal.
+                                </p>
+                            </div>
+                        ) : user.role === "client" ? (
+                            <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+                                <p className="text-red-500 text-sm">
+                                    Clients cannot submit proposals.
+                                </p>
+                            </div>
+                        ) : (
+                            <SubmitProposal task={task} user={user} />
+                        )}
                     </div>
 
                     <Card className="bg-zinc-950/40 border border-zinc-900 p-6 rounded-2xl backdrop-blur-xl">

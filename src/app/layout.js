@@ -1,5 +1,6 @@
-import dns from "node:dns";
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
+import dns from 'node:dns'
+dns.setServers(['8.8.8.8','8.8.4.4'])
+
 
 import { Manrope } from "next/font/google";
 import "./globals.css";

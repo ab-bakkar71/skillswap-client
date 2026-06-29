@@ -44,7 +44,6 @@ const paymentSuccessPage = async ({ searchParams }) => {
     body: JSON.stringify( paymentData )
   })
   const data = await res.json();
-  console.log(data);
 
 
 

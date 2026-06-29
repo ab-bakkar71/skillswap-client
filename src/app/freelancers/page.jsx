@@ -4,7 +4,7 @@ import React from 'react';
 
 const AllFreelancerPage = async () => {
     const freelancers = await getFreelancer();
-    console.log(freelancers);
+    
     return (
         <section className='w-full max-w-7xl min-h-screen mx-auto px-4 py-8 text-white'>
             <div className="mb-10 border-b border-zinc-900 pb-6 font-manrope">
