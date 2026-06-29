@@ -117,6 +117,7 @@ const ProposalClient = ({ proposals }) => {
                                             color="success"
                                             variant="flat"
                                             isLoading={isProcessing}
+                                            isDisabled={proposal.status !== "pending"}
                                             onClick={() => handleAcceptTask(proposal)}
                                             className="font-bold text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
                                         >
@@ -128,7 +129,8 @@ const ProposalClient = ({ proposals }) => {
                                             size="sm"
                                             variant="flat"
                                             color="danger"
-                                            disabled={isProcessing}
+                                           
+                                            isDisabled={proposal.status !== "pending" || isProcessing}
                                             className="font-bold text-xs bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
                                         >
                                             <FaXmark className="text-xs" />

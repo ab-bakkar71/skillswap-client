@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛠️ SkillSwap — Freelance Micro-Task Platform
 
-## Getting Started
+SkillSwap is a secure, full-stack micro-task marketplace platform where Clients can seamlessly post quick jobs (e.g., logo design, article writing, bug fixing), and Freelancers can browse, apply via proposals, get hired, and earn secure payouts through Stripe Integration. It operates with a fully responsive dashboard experience for three core system roles: Client, Freelancer, and Admin.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🔗 Project Links & Credentials
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **🌐 Live Client Website:** [SkillSwap Live](https://skillswap-client-dun.vercel.app/)
+* **💻 Client (Frontend) Repository:** [GitHub Client Repo](https://github.com/ab-bakkar71/skillswap-client)
+* **📡 Server (Backend) Repository:** [GitHub Server Repo](https://github.com/ab-bakkar71/skillswap-server)
+* **⚙️ Live Server Base URL:** [Live API Endpoint](https://skillswap-server-nu.vercel.app/)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 🔑 Test Accounts & Credentials
+* **Admin Access (Hardcoded Dashboard):**
+    * **Email:** `admin@gmail.com`
+    * **Password:** `Asd123@asd`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏗️ System Workflow & Architecture
 
-To learn more about Next.js, take a look at the following resources:
+The workflow below illustrates how the Client, Freelancer, and Stripe checkout pipelines interact securely within the application to complete a micro-task lifecycle:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Key Features & Business Logic
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. Robust Role-Based Dashboards
+* **Client Panel:** Post new tasks (default status: open), track task states, review received application proposals, accept/reject freelancer bids, and manage active jobs.
+* **Freelancer Panel:** Track total/pending/accepted proposals, evaluate current running earnings, manage a public portfolio, and instantly submit active task deliverables.
+* **Admin Panel:** Access platform-wide metrics (Total Users, Tasks, Active Pipelines), control user states via immediate Block/Unblock actions, and audit Stripe historical records.
 
-## Deploy on Vercel
+### 2. Multi-Tier Authentication (Better-Auth)
+* Engineered via `Better-Auth` incorporating standard secure Credentials and Google OAuth workflows.
+* **Role Binding Rules:** Google login users strictly register as Clients. Form logins require manual checkbox selectors for onboarding Freelancer profiles.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Core Technical Challenges Solved
+* **Dynamic Search & Filter Pipeline:** Client-side live title parsing working seamlessly side-by-side with localized string filter drops (Design, Development, Writing, Marketing, Other) without causing any generic browser window updates.
+* **Server-Driven Pagination Loop:** Strict query parameters rendering a maximum allocation boundary of 9 documents per pagination index equipped with safe Prev/Next navigation blocks.
+* **Stripe Escrow Architecture:** Implements a direct runtime server function verification process. Success page handlers confirm actual transaction state tokens natively before making changes on Mongo collections.
+* **Status Automation Pipeline:** Payment validation hooks auto-transition matching `tasks` models directly into `in-progress` and target `proposals` straight into an `accepted` registry concurrently.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📦 Core NPM Packages Utilized
+
+### Production Runtime Dependencies
+* `next` - React application routing engine (App Router architecture).
+* `react` & `react-dom` - Component baseline virtualization.
+* `better-auth` & `@better-auth/mongo-adapter` - Identity validation system.
+* `mongodb` - Native Database aggregation interface driver.
+* `stripe` & `@stripe/stripe-js` - Financial gateway handling protocols.
+* `@heroui/react` & `@heroui/styles` - Premium layout engine primitives.
+* `react-icons` - Icon utility ecosystem wrapper.
+* `react-toastify` - Realtime state notifications alert box.
+* `react-spinners` - Micro-state runtime loaders.
+
+### Development Utilities
+* `tailwindcss` & `@tailwindcss/postcss` - Utility-first styling sheet processor.
+* `babel-plugin-react-compiler` - Build memoization automation engine.
+* `eslint` & `eslint-config-next` - Local standard codebase compilation auditing tool.
+
+---

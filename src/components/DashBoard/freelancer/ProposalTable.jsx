@@ -41,16 +41,16 @@ const ProposalTable = ({ proposals }) => {
 
 
                                 <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === 'pending'
-                                        ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse' 
-                                        : proposal.status === 'accepted'
-                                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-                                            : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
+                                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse'
+                                    : proposal.status === 'accepted'
+                                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                                        : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
                                     }`}>
                                     {proposal.status === 'pending' && 'Pending'}
                                     {proposal.status === 'accepted' && 'Accepted'}
                                     {proposal.status === 'rejected' && 'Rejected'}
 
-                                
+
                                     {!proposal.status && 'Pending'}
                                 </span>
                             </div>
