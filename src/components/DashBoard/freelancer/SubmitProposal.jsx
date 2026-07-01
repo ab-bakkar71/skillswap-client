@@ -1,5 +1,5 @@
 "use client"
-import { postProposal } from '@/lib/actions/client';
+import { postProposal } from '@/lib/actions/freelancer';
 import { Button, Card, FieldError, Input, Label, TextArea, TextField } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -30,13 +30,14 @@ const SubmitProposal = ({ task, user }) => {
       status: "pending",
     };
 
-    // backend api call
     const res = await postProposal(finalData);
-    if (res.insertedId) {
-      toast.success('Proposal submitted successfully!');
-      router.push('/dashboard/freelancer/proposals')
+
+    // backend api call
+    if (res.result?.insertedId) {
+      toast.success("Proposal submitted successfully!");
+      router.push("/dashboard/freelancer/proposals");
     } else {
-      toast.error(error.message)
+      toast.error(res.message);
     }
     setIsLoading(false)
 
@@ -62,9 +63,7 @@ const SubmitProposal = ({ task, user }) => {
             <Input placeholder="e.g. 3" variant="bordered" className="w-full text-white" />
             <FieldError className="text-rose-400 text-xs mt-1" />
           </TextField>
-
         </div>
-
         <div className="flex flex-col gap-2">
           <Label htmlFor="textarea-rows-4">Cover Note</Label>
           <TextArea
