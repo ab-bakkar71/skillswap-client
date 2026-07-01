@@ -29,9 +29,7 @@ const EditProfileModal = ({ currentUser }) => {
     if (currentUser?.email) {
        const result = await updateProfile(currentUser.email, finalData);
        
-       if (result && (result.modifiedCount > 0 || result.matchedCount > 0)) {
-          console.log("✅ Update Success:", result);
-          
+       if (result && (result.modifiedCount > 0 || result.matchedCount > 0)) { 
           
           toast.success("Profile updated successfully!"); 
           

@@ -7,6 +7,7 @@ import React from 'react';
 import { FaRegEdit } from 'react-icons/fa';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
+import TaskEdit from '@/components/DashBoard/Client/TaskEdit';
 
 const taskIdPage = async ({ params }) => {
     const { id } = await params;
@@ -56,21 +57,17 @@ const taskIdPage = async ({ params }) => {
                 <div className="flex flex-wrap items-center justify-start gap-3 pt-3 border-t border-zinc-800/40 w-full mt-auto">
                     {isOpen ? (
                         <div className="flex items-center gap-2">
-                            
-                            <Button
-                                size="sm"
-                                variant="bordered"
-                                className="border-zinc-800 text-zinc-300 hover:border-purple-500 hover:text-white rounded-xl font-bold text-xs h-9 px-4"
-                            >
-                                <FaRegEdit className="text-sm" />
-                                Edit
-                            </Button>
 
-                            {/* 🗑️ ডাইনামিক ডিলিট বাটন (যদি প্রপোজাল থাকে তবে অটো ডিজেবল হবে) */}
+
+                            <TaskEdit task = {task}/>
+                            
+                            
+
+                        
                             <DeleteTaskButton taskId={task._id} hasProposals={hasProposals} />
                         </div>
                     ) : (
-                        // টাস্ক ওপেন না থাকলে (In-Progress বা Completed হলে সবকিছু ডিজেবল)
+                    
                         <div className="flex items-center gap-2 opacity-40 cursor-not-allowed">
                             <Button size="sm" variant="bordered" isDisabled className="rounded-xl font-bold text-xs h-9 px-4">
                                 <FaRegEdit className="text-sm" /> Edit
