@@ -1,27 +1,30 @@
-
 import ProposalClient from '@/components/DashBoard/Client/ProposalClient';
+import DeleteTaskButton from '@/components/DashBoard/Client/DeleteTaskButton'; // নতুন ক্লায়েন্ট বাটন কম্পোনেন্ট
 import { getProposalById } from '@/lib/api/client';
 import { getTaskById } from '@/lib/api/freelancer';
 import { Button, Card } from '@heroui/react';
-import { BiGlobe } from 'react-icons/bi';
-import { FaRegEdit, FaRegUserCircle } from 'react-icons/fa';
-import { FaXmark } from 'react-icons/fa6';
+import React from 'react';
+import { FaRegEdit } from 'react-icons/fa';
 import { IoLogoUsd } from 'react-icons/io';
-import { IoCalendarNumberOutline, IoCheckmarkSharp, IoTrashBin } from 'react-icons/io5';
-import { MdDeleteForever } from 'react-icons/md';
+import { IoCalendarNumberOutline } from 'react-icons/io5';
 
 const taskIdPage = async ({ params }) => {
     const { id } = await params;
     const task = await getTaskById(id);
     const proposals = await getProposalById(id);
 
+    // 🔍 চেক করা হচ্ছে এই টাস্কে কোনো প্রপোজাল আছে কিনা
+    const hasProposals = proposals && proposals.length > 0;
+    const isOpen = task.status === 'open';
 
     return (
-        <section className='max-w-5xl mx-auto'>
-            <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white leading-tight mb-6">{task.title}</h1>
-            <Card className='w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5  transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer'>
+        <section className='max-w-5xl mx-auto p-4 font-manrope text-white'>
+            <h1 className="text-2xl md:text-4xl font-black tracking-tight leading-tight mb-6">{task.title}</h1>
+            
+            <Card className='w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-zinc-700/50 rounded-2xl p-5 md:p-6 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between gap-4'>
                 <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                    <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${task.status === 'open'
+                    <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${
+                        task.status === 'open'
                         ? 'bg-blue-500/10 border-blue-500/30 text-blue-400 animate-pulse'
                         : task.status === 'in-progress'
                             ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
@@ -33,70 +36,57 @@ const taskIdPage = async ({ params }) => {
                     </span>
 
                     <span className="text-xs font-semibold bg-zinc-800/40 border border-zinc-700/50 text-zinc-300 px-2.5 py-1 rounded-md capitalize">
-                        {task.category.replace('-', ' ')}
+                        {task.category?.replace('-', ' ')}
                     </span>
-
 
                     <div className="text-xs flex items-center gap-1 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">
                         <IoLogoUsd />
                         <span>{task.budget}</span>
                     </div>
 
-
                     <div className="flex items-center gap-1.5 text-zinc-400 text-xs">
                         <IoCalendarNumberOutline className="w-3.5 h-3.5 text-zinc-500" />
                         <span>{task.deadline}</span>
                     </div>
-
                 </div>
-                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed line-clamp-1">
+
+                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed">
                     {task.description}
                 </p>
                 <div className="flex flex-wrap items-center justify-start gap-3 pt-3 border-t border-zinc-800/40 w-full mt-auto">
-                    {
-                        task.status === 'open' ? (
+                    {isOpen ? (
+                        <div className="flex items-center gap-2">
+                            
+                            <Button
+                                size="sm"
+                                variant="bordered"
+                                className="border-zinc-800 text-zinc-300 hover:border-purple-500 hover:text-white rounded-xl font-bold text-xs h-9 px-4"
+                            >
+                                <FaRegEdit className="text-sm" />
+                                Edit
+                            </Button>
 
-                            <div className="flex items-center gap-2">
-                                <Button
-                                    size="sm"
-                                    variant="bordered"
-                                    className="border-zinc-800 text-zinc-300 hover:border-brand-accent hover:text-white rounded-xl font-bold text-xs h-9 px-4"
-                                >
-                                    <FaRegEdit className="text-sm" />
-                                    Edit
-                                </Button>
-
-                                <Button
-                                    size="sm"
-                                    color="danger"
-                                    variant="flat"
-                                    className="bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl font-bold text-xs h-9 px-4"
-                                >
-                                    <MdDeleteForever className="text-base" />
-                                    Delete
-                                </Button>
-                            </div>
-                        ) : (
-
-                            <div className="flex items-center gap-2 opacity-40 cursor-not-allowed">
-                                <Button size="sm" variant="bordered" isDisabled className="rounded-xl font-bold text-xs h-9 px-4">
-                                    <FaRegEdit className="text-sm" />
-                                    Edit
-                                </Button>
-
-                                <Button size="sm" variant="flat" isDisabled className="rounded-xl font-bold text-xs h-9 px-4">
-                                    <MdDeleteForever className="text-base" />
-                                    Delete
-                                </Button>
-                            </div>
-                        )
-                    }
+                            {/* 🗑️ ডাইনামিক ডিলিট বাটন (যদি প্রপোজাল থাকে তবে অটো ডিজেবল হবে) */}
+                            <DeleteTaskButton taskId={task._id} hasProposals={hasProposals} />
+                        </div>
+                    ) : (
+                        // টাস্ক ওপেন না থাকলে (In-Progress বা Completed হলে সবকিছু ডিজেবল)
+                        <div className="flex items-center gap-2 opacity-40 cursor-not-allowed">
+                            <Button size="sm" variant="bordered" isDisabled className="rounded-xl font-bold text-xs h-9 px-4">
+                                <FaRegEdit className="text-sm" /> Edit
+                            </Button>
+                            <Button size="sm" variant="flat" isDisabled className="rounded-xl font-bold text-xs h-9 px-4">
+                                Delete
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </Card>
-            {/* for proposal */}
 
-                   <ProposalClient proposals={proposals}/>
-      
+            {/* Proposals List */}
+            <div className="mt-8">
+                <ProposalClient proposals={proposals}/>
+            </div>
         </section>
     );
 };

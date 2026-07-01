@@ -36,7 +36,7 @@ const paymentSuccessPage = async ({ searchParams }) => {
   };
 
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/payment`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-session`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

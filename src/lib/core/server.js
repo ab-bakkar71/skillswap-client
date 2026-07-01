@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const serverFetch = async (path) => {
@@ -29,3 +31,14 @@ export const serverPatch = async (path, data) => {
   });
   return res.json();
 };
+
+export const serverDelete = async (path, data)=>{
+  const res = await fetch(`${baseUrl}${path}`,{
+    method: "DELETE",
+    headers: {
+      "content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+  return res.json();
+}

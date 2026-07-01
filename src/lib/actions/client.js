@@ -1,6 +1,6 @@
 "use server"
 
-import { serverPost } from "../core/server"
+import { serverDelete, serverPost } from "../core/server"
 
 // post task api
 export const postTask = async(newTask)=>{
@@ -10,3 +10,7 @@ export const postTask = async(newTask)=>{
 export const postProposal = async(newProposal) => {
     return serverPost('/api/proposal', newProposal)
 }
+
+export const deleteTask = async (id) => {
+  return serverDelete(`/api/client/task/${id}`);
+};
