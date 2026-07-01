@@ -6,6 +6,7 @@ import { FaXmark } from 'react-icons/fa6';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline, IoCheckmarkSharp } from 'react-icons/io5';
 import { toast } from 'react-toastify';
+import RejectProposal from './RejectProposal';
 
 
 const ProposalClient = ({ proposals }) => {
@@ -125,17 +126,7 @@ const ProposalClient = ({ proposals }) => {
                                             Accept
                                         </Button>
 
-                                        <Button
-                                            size="sm"
-                                            variant="flat"
-                                            color="danger"
-                                           
-                                            isDisabled={proposal.status !== "pending" || isProcessing}
-                                            className="font-bold text-xs bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
-                                        >
-                                            <FaXmark className="text-xs" />
-                                            Reject
-                                        </Button>
+                                        <RejectProposal proposal={proposal} isProcessing={isProcessing}/>
                                     </div>
                                 </div>
                             </Card>

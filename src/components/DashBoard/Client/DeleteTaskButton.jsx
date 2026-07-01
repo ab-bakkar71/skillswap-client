@@ -10,9 +10,9 @@ export default function DeleteTaskButton({ taskId, hasProposals }) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // 🔄 ডিলিট হ্যান্ডলার ফাংশন
+
   const handelDelete = async () => {
-    if (hasProposals) return; // সেফটি গার্ড
+    if (hasProposals) return;
 
     setIsDeleting(true);
     try {
@@ -68,7 +68,7 @@ export default function DeleteTaskButton({ taskId, hasProposals }) {
                     Cancel
                   </Button>
                   <Button 
-                    onClick={handelDelete} // 👈 ফিক্সড: আলাদা কোনো আইডি পাস করতে হবে না
+                    onClick={handelDelete} 
                     slot="close" 
                     variant="danger"
                     isLoading={isDeleting}

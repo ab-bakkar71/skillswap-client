@@ -18,3 +18,7 @@ export const deleteTask = async (id) => {
 export const editTask = async (id, updatedTask) => {
   return serverPatch(`/api/client/update/${id}`, updatedTask);
 }
+
+export const rejectProposal = async (proposalId) => {
+  return serverPatch(`/api/proposal/reject/${proposalId}`);
+}
