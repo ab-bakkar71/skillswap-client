@@ -7,4 +7,8 @@ export const getUserData = async()=>{
         return serverFetch('/api/admin/user');
 }
 
+export const getPaymentData = async()=>{
+        return serverFetch('/api/admin/payment');
+}
+
 
