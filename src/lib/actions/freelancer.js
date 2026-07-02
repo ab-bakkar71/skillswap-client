@@ -7,3 +7,7 @@ export const updateProfile = async (email, finalData) => {
 export const postProposal = async(newProposal) => {
     return serverPost('/api/proposal', newProposal)
 }
+
+export const submitTask = async (proposalId, deliverableUrl) => {
+    return serverPatch(`/api/proposal/complete/${proposalId}`, { deliverableUrl });
+}

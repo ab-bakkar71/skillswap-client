@@ -1,3 +1,4 @@
+
 import TaskCard from '@/components/TaskCard';
 import { getTask } from '@/lib/api/freelancer';
 import React from 'react';
@@ -14,6 +15,8 @@ const taskPage = async () => {
                     Explore micro-tasks posted by clients worldwide. Filter by category, check the budget, and pitch your skills to start earning instantly.
                 </p>
             </div>
+
+          
 
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10'>
                 {

@@ -3,6 +3,7 @@ import React from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
+import ViewSubmission from './ViewSubmission';
 
 const ProposalTable = ({ proposals }) => {
 
@@ -40,18 +41,22 @@ const ProposalTable = ({ proposals }) => {
                                 </div>
 
 
-                                <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === 'pending'
-                                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse'
-                                    : proposal.status === 'accepted'
-                                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                                        : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
-                                    }`}>
-                                    {proposal.status === 'pending' && 'Pending'}
-                                    {proposal.status === 'accepted' && 'Accepted'}
-                                    {proposal.status === 'rejected' && 'Rejected'}
+                                <span
+                                    className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === "pending"
+                                            ? "bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse"
+                                            : proposal.status === "accepted"
+                                                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                                                : proposal.status === "completed"
+                                                    ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
+                                                    : "bg-rose-500/10 border-rose-500/30 text-rose-400"
+                                        }`}
+                                >
+                                    {proposal.status === "pending" && "Pending"}
+                                    {proposal.status === "accepted" && "Accepted"}
+                                    {proposal.status === "completed" && "Completed"}
+                                    {proposal.status === "rejected" && "Rejected"}
 
-
-                                    {!proposal.status && 'Pending'}
+                                    {!proposal.status && "Pending"}
                                 </span>
                             </div>
 
@@ -74,6 +79,10 @@ const ProposalTable = ({ proposals }) => {
                                         <span>{proposal?.createdAt ? new Date(proposal.createdAt).toLocaleDateString('en-GB') : 'N/A'}</span>
                                     </div>
                                 </div>
+
+                                {proposal.status === "completed" && (
+                                    <ViewSubmission proposal={proposal} />
+                                )}
 
                             </div>
                         </Card>

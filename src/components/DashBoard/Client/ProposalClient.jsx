@@ -7,6 +7,7 @@ import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline, IoCheckmarkSharp } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import RejectProposal from './RejectProposal';
+import ViewSubmission from '../freelancer/ViewSubmission';
 
 
 const ProposalClient = ({ proposals }) => {
@@ -14,7 +15,7 @@ const ProposalClient = ({ proposals }) => {
 
     const handleAcceptTask = async (proposal) => {
         setLoadingProposalId(proposal._id);
-        
+
         try {
             const response = await fetch('/api/checkout_sessions', {
                 method: 'POST',
@@ -31,11 +32,11 @@ const ProposalClient = ({ proposals }) => {
             });
 
             const data = await response.json();
-            
+
 
             if (data.url) {
                 toast.success("Redirecting to secure payment checkout... 💳");
-               
+
                 window.location.href = data.url;
             } else {
                 toast.error(data.error || "Failed to create checkout session.");
@@ -59,7 +60,7 @@ const ProposalClient = ({ proposals }) => {
                         {proposals?.length || 0} {proposals?.length === 1 ? 'proposal' : 'proposals'}.
                     </p>
                 </div>
-                
+
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-full">
                     {proposals?.map((proposal) => {
                         const isProcessing = loadingProposalId === proposal._id;
@@ -83,14 +84,22 @@ const ProposalClient = ({ proposals }) => {
                                         </p>
                                     </div>
 
-                                    <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${
-                                        proposal.status === 'pending'
-                                            ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse'
-                                            : proposal.status === 'accepted'
-                                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                                                : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
-                                    }`}>
-                                        {proposal.status === 'accepted' ? 'Accepted' : proposal.status === 'rejected' ? 'Rejected' : 'Pending'}
+                                    <span
+                                        className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === "pending"
+                                            ? "bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse"
+                                            : proposal.status === "accepted"
+                                                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                                                : proposal.status === "completed"
+                                                    ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
+                                                    : "bg-rose-500/10 border-rose-500/30 text-rose-400"
+                                            }`}
+                                    >
+                                        {proposal.status === "pending" && "Pending"}
+                                        {proposal.status === "accepted" && "Accepted"}
+                                        {proposal.status === "completed" && "Completed"}
+                                        {proposal.status === "rejected" && "Rejected"}
+
+                                        {!proposal.status && "Pending"}
                                     </span>
                                 </div>
 
@@ -112,21 +121,44 @@ const ProposalClient = ({ proposals }) => {
                                     </div>
 
                                     <div className="flex items-center gap-2">
-                                      
-                                        <Button
-                                            size="sm"
-                                            color="success"
-                                            variant="flat"
-                                            isLoading={isProcessing}
-                                            isDisabled={proposal.status !== "pending"}
-                                            onClick={() => handleAcceptTask(proposal)}
-                                            className="font-bold text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
-                                        >
-                                            {!isProcessing && <IoCheckmarkSharp className="text-sm" />}
-                                            Accept
-                                        </Button>
+                                        {proposal.status === "pending" ? (
+                                            <>
+                                                <Button
+                                                    size="sm"
+                                                    color="success"
+                                                    variant="flat"
+                                                    isLoading={isProcessing}
+                                                    onClick={() => handleAcceptTask(proposal)}
+                                                    className="font-bold text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-xl transition-all duration-200 h-9 px-4"
+                                                >
+                                                    {!isProcessing && <IoCheckmarkSharp className="text-sm" />}
+                                                    Accept
+                                                </Button>
 
-                                        <RejectProposal proposal={proposal} isProcessing={isProcessing}/>
+                                                <RejectProposal
+                                                    proposal={proposal}
+                                                    isProcessing={isProcessing}
+                                                />
+                                            </>
+                                        ) : proposal.status === "completed" ? (
+                                            <ViewSubmission proposal={proposal} />
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    size="sm"
+                                                    variant="flat"
+                                                    isDisabled
+                                                    className="font-bold text-xs h-9 px-4"
+                                                >
+                                                    Accept
+                                                </Button>
+
+                                                <RejectProposal
+                                                    proposal={proposal}
+                                                    isProcessing={true}
+                                                />
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </Card>
