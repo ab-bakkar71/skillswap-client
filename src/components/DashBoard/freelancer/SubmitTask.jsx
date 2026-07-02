@@ -1,9 +1,12 @@
 "use client"
 import { submitTask } from '@/lib/actions/freelancer';
 import { Button, Input, Label, Modal, Surface, TextField } from '@heroui/react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 const SubmitTask = ({proposal}) => {
+    const router = useRouter();
     const handleSubmit = async(e) => {
         e.preventDefault();
         // Handle form submission logic here
@@ -11,7 +14,12 @@ const SubmitTask = ({proposal}) => {
         const deliveryUrl = Object.fromEntries(formData.entries());
         
         const result = await submitTask(proposal._id, deliveryUrl.deliverableUrl);
-        console.log(result);
+        if (result && (result.modifiedCount > 0 || result.matchedCount > 0)) { 
+                  
+                  toast.success("Task marked as completed successfully!"); 
+                  
+                  router.push('/freelancer/dashboard/proposals');
+               }
 
 
     }
