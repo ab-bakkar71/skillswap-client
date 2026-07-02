@@ -3,17 +3,11 @@
 import { Avatar, Table, Tooltip } from "@heroui/react";
 import React from "react";
 import { FiClock, FiEdit2 } from "react-icons/fi";
-import { ImBlocked } from "react-icons/im";
-import { MdLockOpen } from "react-icons/md";
+
 import BlockUser from "./BlockUser";
 
 const UserManagementTable = ({ users, currentUser }) => {
     
-
-    const handleRoleChange = (user) => {
-        console.log("Change Role:", user);
-        // API Call
-    };
 
     return (
         <div className="w-full font-manrope space-y-4 pr-10">

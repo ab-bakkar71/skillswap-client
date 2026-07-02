@@ -25,7 +25,7 @@ const TaskEdit = ({ task }) => {
             deadline: updateData.deadline,
         };
 
-        console.log(updatedTask);
+     
         const response = await editTask(task._id, updatedTask);
         if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
 

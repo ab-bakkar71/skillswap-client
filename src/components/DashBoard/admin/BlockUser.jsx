@@ -16,10 +16,10 @@ const BlockUser = ({ user, isCurrentUser }) => {
   const result = await BlockUserFetch(user._id, newStatus);
 
   if (result.success) {
-    console.log(result.message);
+    
     router.refresh();
   } else {
-    console.log(result.message);
+    console.error("Failed to update user status:", result.message);
   }
 };
     

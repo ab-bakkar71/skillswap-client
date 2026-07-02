@@ -1,6 +1,7 @@
 import { Button, Table, Tooltip } from '@heroui/react';
 import React from 'react';
 import { FiActivity, FiCheckCircle, FiClock, FiTrash2 } from 'react-icons/fi';
+import DeleteTask from './DeleteTask';
 
 const TaskManagement = ({tasks}) => {
     return (
@@ -59,17 +60,7 @@ const TaskManagement = ({tasks}) => {
                     
                       <Table.Cell className="text-center">
                         <Tooltip content="Delete for Bad Text/Safety Violation" color="danger" className="rounded-md text-xs">
-                          <Button
-                            size="sm"
-                            variant="flat"
-                            color="danger"
-                            // isLoading={isDeleting}
-                            // onClick={() => handleDeleteTask(task._id, task.taskTitle)}
-                            className="font-bold text-xs bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl transition-all duration-200 h-8 px-3"
-                          >
-                             <FiTrash2 className="text-sm" />
-                            Delete Task
-                          </Button>
+                          <DeleteTask task={task} />
                         </Tooltip>
                       </Table.Cell>
 

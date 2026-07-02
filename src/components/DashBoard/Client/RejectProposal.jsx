@@ -9,7 +9,7 @@ const RejectProposal = ({ proposal, isProcessing }) => {
     const router = useRouter();
     const handleReject = async () => {
         const response = await rejectProposal(proposal._id);
-        console.log(response);
+       
 
         if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
             toast.success("Proposal successfully rejected! ✖️");

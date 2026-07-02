@@ -4,7 +4,7 @@ import React from 'react';
 
 const adminDashboardPage = async() => {
     const data = await getStaticData();
-    console.log(data);
+    
     return (
         <div>
             <AdminStatics data={data}/>
