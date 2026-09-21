@@ -4,7 +4,8 @@ import { getTask } from '@/lib/api/freelancer';
 import React from 'react';
 
 const taskPage = async () => {
-    const allTasks = await getTask();
+    const rawTasks = await getTask();
+    const allTasks = Array.isArray(rawTasks) ? rawTasks : [];
     return (
         <section className='w-full max-w-7xl mx-auto px-4 py-8 text-white'>
             <div className='mb-8 border-b border-zinc-800/60 pb-6'>
@@ -16,11 +17,15 @@ const taskPage = async () => {
                 </p>
             </div>
 
-          
-
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10'>
                 {
-                    allTasks.map(task => <TaskCard key={task._id} task={task} />)
+                    allTasks.length > 0 ? (
+                        allTasks.map(task => <TaskCard key={task._id} task={task} />)
+                    ) : (
+                        <div className="col-span-full py-12 text-center text-zinc-500 font-medium">
+                            No open tasks available at the moment.
+                        </div>
+                    )
                 }
             </div>
         </section>

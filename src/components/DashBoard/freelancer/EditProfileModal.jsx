@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { Button, FieldError, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { toast } from 'react-toastify';

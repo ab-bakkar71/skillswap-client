@@ -75,18 +75,26 @@ const ProfilePage = ({ user }) => {
                         <div className="mt-8 border-t border-brand-border/20 pt-5 space-y-2">
                             <span className="text-xs text-zinc-500 font-medium tracking-wide block">Skills & Badges</span>
                             <div className="flex flex-wrap gap-2 pt-1">
-                                {currentUser?.skills && currentUser?.skills.length > 0 ? (
-                                    currentUser?.skills.map((skill, index) => (
-                                        <span
-                                            key={index}
-                                            className="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-brand-accent/10 border border-brand-accent/30 text-brand-accent shadow-sm shadow-violet-500/5 transition-all duration-300 hover:bg-brand-accent/20 hover:scale-105 cursor-pointer"
-                                        >
-                                            #{skill}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <span className="text-xs text-zinc-600 italic">No skills specified.</span>
-                                )}
+                                {(() => {
+                                    const skillsList = Array.isArray(currentUser?.skills)
+                                        ? currentUser.skills
+                                        : typeof currentUser?.skills === "string" && currentUser.skills.trim()
+                                        ? currentUser.skills.split(",").map(s => s.trim()).filter(Boolean)
+                                        : [];
+
+                                    return skillsList.length > 0 ? (
+                                        skillsList.map((skill, index) => (
+                                            <span
+                                                key={index}
+                                                className="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-brand-accent/10 border border-brand-accent/30 text-brand-accent shadow-sm shadow-violet-500/5 transition-all duration-300 hover:bg-brand-accent/20 hover:scale-105 cursor-pointer"
+                                            >
+                                                #{skill}
+                                            </span>
+                                        ))
+                                    ) : (
+                                        <span className="text-xs text-zinc-600 italic">No skills specified.</span>
+                                    );
+                                })()}
                             </div>
                         </div>
 

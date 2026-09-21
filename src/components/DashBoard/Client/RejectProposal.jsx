@@ -1,3 +1,5 @@
+"use client";
+
 import { rejectProposal } from '@/lib/actions/client';
 import { AlertDialog, Button } from '@heroui/react';
 import { useRouter } from 'next/navigation';

@@ -1,4 +1,6 @@
-import { serverPatch, serverPost } from "../core/server"
+"use server";
+
+import { serverPatch, serverPost } from "../core/server";
 
 export const updateProfile = async (email, finalData) => {
     return serverPatch(`/api/freelancer/update/${email}`, finalData);

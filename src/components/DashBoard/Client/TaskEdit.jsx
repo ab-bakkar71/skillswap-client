@@ -28,13 +28,8 @@ const TaskEdit = ({ task }) => {
      
         const response = await editTask(task._id, updatedTask);
         if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
-
-            toast.success("Task updated successfully!");
-            // router.refresh();
-            // router.push("/dashboard/client/my-task");
-            window.location.reload(); // Refresh the page to reflect changes
-
-
+            toast.success("Task updated successfully! ✅");
+            router.refresh();
         } else {
             toast.error("No changes made or failed to update.");
         }

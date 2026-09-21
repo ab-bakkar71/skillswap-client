@@ -3,9 +3,10 @@ import AllFreelancerClient from './AllFreelancerClient';
 import { getFreelancer } from '@/lib/api/freelancer';
 
 const TopFreelancers = async () => {
-    const topFreelancers = await getFreelancer();
+    const rawFreelancers = await getFreelancer();
+    const topFreelancers = Array.isArray(rawFreelancers) ? rawFreelancers : [];
     const freelancers = topFreelancers.slice(0, 4);
-    
+    if (freelancers.length === 0) return null;
 
     return (
         <section className='w-full text-white bg-brand-nav/40 py-20 px-6 md:px-16 lg:px-24 font-manrope overflow-hidden z-10 select-none'>

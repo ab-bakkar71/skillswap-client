@@ -5,6 +5,24 @@ import React from 'react';
 const freelancerById = async ({ params }) => {
     const { id } = await params;
     const freelancer = await getFreelancerById(id);
+
+    if (!freelancer || freelancer.error) {
+        return (
+            <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 font-manrope text-white">
+                <h2 className="text-2xl font-bold mb-2">Freelancer Not Found</h2>
+                <p className="text-zinc-400 text-sm max-w-md">
+                    The freelancer profile you are looking for does not exist or has been removed.
+                </p>
+            </div>
+        );
+    }
+
+    const skillsList = Array.isArray(freelancer?.skills)
+        ? freelancer.skills
+        : typeof freelancer?.skills === "string" && freelancer.skills.trim()
+        ? freelancer.skills.split(",").map((s) => s.trim()).filter(Boolean)
+        : [];
+
     return (
         <div>
             <div className="w-full max-w-7xl mx-auto px-4 py-8 text-white">
@@ -64,8 +82,8 @@ const freelancerById = async ({ params }) => {
                         <div className="mt-8 border-t border-brand-border/20 pt-5 space-y-2">
                             <span className="text-xs text-zinc-500 font-medium tracking-wide block">Skills & Badges</span>
                             <div className="flex flex-wrap gap-2 pt-1">
-                                {freelancer?.skills && freelancer?.skills.length > 0 ? (
-                                    freelancer?.skills.map((skill, index) => (
+                                {skillsList.length > 0 ? (
+                                    skillsList.map((skill, index) => (
                                         <span
                                             key={index}
                                             className="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-brand-accent/10 border border-brand-accent/30 text-brand-accent shadow-sm shadow-violet-500/5 transition-all duration-300 hover:bg-brand-accent/20 hover:scale-105 cursor-pointer"

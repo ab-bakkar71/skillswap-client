@@ -5,6 +5,7 @@ import React from "react";
 import { FiClock, FiEdit2 } from "react-icons/fi";
 
 import BlockUser from "./BlockUser";
+import ChangeUserRole from "./ChangeUserRole";
 
 const UserManagementTable = ({ users, currentUser }) => {
     
@@ -121,21 +122,7 @@ const UserManagementTable = ({ users, currentUser }) => {
                                                 <div className="flex justify-center gap-4">
 
                                                     {/* Change Role */}
-
-                                                    <Tooltip content="Change Role">
-                                                        <button
-                                                            disabled={isCurrentUser}
-                                                            onClick={() =>
-                                                                handleRoleChange(user)
-                                                            }
-                                                            className={`text-lg transition-colors ${isCurrentUser
-                                                                ? "opacity-40 cursor-not-allowed"
-                                                                : "text-zinc-500 hover:text-blue-400 cursor-pointer"
-                                                                }`}
-                                                        >
-                                                            <FiEdit2 />
-                                                        </button>
-                                                    </Tooltip>
+                                                    <ChangeUserRole user={user} isCurrentUser={isCurrentUser} />
 
                                                     {/* Block / Unblock */}
 

@@ -62,7 +62,7 @@ const loginPage = () => {
 
                 <div className="text-center mb-8">
                     <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
-                        Sign In to HIRE<span className="text-blue-500">LOOP</span>
+                        Sign In to Skill<span className="text-violet-500">Swap</span>
                     </h1>
                     <p className="text-xs text-zinc-400 mt-1">Welcome back! Please enter your credentials.</p>
                 </div>

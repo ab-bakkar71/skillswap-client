@@ -25,14 +25,14 @@ const PostTaskClient = ({ user }) => {
             clientEmail: user.email,
             clientName: user.name
         }
-        const res = await postTask(finalData)
-        if(res.insertedId){
-            toast.success('Task Added Successful!');
-            router.push('/dashboard/client/my-task')
-        }else{
-            toast.error(error.message)
+        const res = await postTask(finalData);
+        if (res?.insertedId) {
+            toast.success('Task Added Successfully! 🚀');
+            router.push('/dashboard/client/my-task');
+        } else {
+            toast.error(res?.message || "Failed to post task. Please try again.");
         }
-        setIsLoading(false)
+        setIsLoading(false);
     }
 
 

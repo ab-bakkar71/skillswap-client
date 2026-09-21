@@ -3,7 +3,8 @@ import { getFreelancer } from '@/lib/api/freelancer';
 import React from 'react';
 
 const AllFreelancerPage = async () => {
-    const freelancers = await getFreelancer();
+    const rawFreelancers = await getFreelancer();
+    const freelancers = Array.isArray(rawFreelancers) ? rawFreelancers : [];
     
     return (
         <section className='w-full max-w-7xl min-h-screen mx-auto px-4 py-8 text-white'>
@@ -18,7 +19,13 @@ const AllFreelancerPage = async () => {
 
            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
             {
-                freelancers.map(freelancer => <AllFreelancerClient key={freelancer._id} freelancer={freelancer}/>)
+                freelancers.length > 0 ? (
+                    freelancers.map(freelancer => <AllFreelancerClient key={freelancer._id} freelancer={freelancer}/>)
+                ) : (
+                    <div className="col-span-full py-12 text-center text-zinc-500 font-medium">
+                        No freelancers found.
+                    </div>
+                )
             }
            </div>
         </section>

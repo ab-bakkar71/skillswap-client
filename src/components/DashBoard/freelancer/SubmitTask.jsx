@@ -14,12 +14,13 @@ const SubmitTask = ({proposal}) => {
         const deliveryUrl = Object.fromEntries(formData.entries());
         
         const result = await submitTask(proposal._id, deliveryUrl.deliverableUrl);
-        if (result && (result.modifiedCount > 0 || result.matchedCount > 0)) { 
-                  
-                  toast.success("Task marked as completed successfully!"); 
-                  
-                  router.push('/freelancer/dashboard/proposals');
-               }
+        if (result && (result.success || result.modifiedCount > 0 || result.matchedCount > 0)) { 
+            toast.success(result.message || "Task marked as completed successfully! 🎉"); 
+            router.push('/dashboard/freelancer/active-project');
+            router.refresh();
+        } else {
+            toast.error(result?.message || "Failed to submit task deliverable.");
+        }
 
 
     }
