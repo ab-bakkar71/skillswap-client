@@ -10,6 +10,8 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 import { BiLogOut } from 'react-icons/bi';
 import { usePathname, useRouter } from 'next/navigation';
 
+import NotificationBell from './NotificationBell';
+
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = authClient.useSession();
@@ -67,26 +69,30 @@ const Navbar = () => {
                             Get Started
                         </Link>
                     </div>) : (
-                        <div className='relative group hidden md:flex gap-2'>
-                            <button className='flex items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border cursor-pointer'>
-                                <Avatar>
-                                    <Avatar.Image alt={user?.name} src={user?.image} />
-                                    <Avatar.Fallback>{user?.name ? user.name[0].toUpperCase() : "U"}</Avatar.Fallback>
-                                </Avatar>
-                            </button>
-
-                            <div className='absolute right-0 top-12 w-40 rounded-lg shadow-2xl hidden group-hover:flex flex-col py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#161616] text-slate-200 border border-slate-800/60'>
-                                <Link href={`/dashboard/${user?.role || 'client'}`} className="px-4 py-2 text-sm flex items-center gap-3 transition-colors text-white hover:text-white hover:bg-violet-600">
-                                    <LuLayoutDashboard className="w-4 h-4" /> Dashboard
-                                </Link>
-                                <button onClick={handelLogOut} className="px-4 py-2 text-sm text-red-500 flex items-center gap-3 transition-colors text-left hover:bg-violet-600 w-full cursor-pointer">
-                                    <BiLogOut className="w-4 h-4" /> Log Out
+                        <div className="flex items-center gap-2">
+                            <NotificationBell userEmail={user?.email} />
+                            <div className='relative group hidden md:flex gap-2'>
+                                <button className='flex items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border cursor-pointer'>
+                                    <Avatar>
+                                        <Avatar.Image alt={user?.name} src={user?.image} />
+                                        <Avatar.Fallback>{user?.name ? user.name[0].toUpperCase() : "U"}</Avatar.Fallback>
+                                    </Avatar>
                                 </button>
+
+                                <div className='absolute right-0 top-12 w-40 rounded-lg shadow-2xl hidden group-hover:flex flex-col py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#161616] text-slate-200 border border-slate-800/60'>
+                                    <Link href={`/dashboard/${user?.role || 'client'}`} className="px-4 py-2 text-sm flex items-center gap-3 transition-colors text-white hover:text-white hover:bg-violet-600">
+                                        <LuLayoutDashboard className="w-4 h-4" /> Dashboard
+                                    </Link>
+                                    <button onClick={handelLogOut} className="px-4 py-2 text-sm text-red-500 flex items-center gap-3 transition-colors text-left hover:bg-violet-600 w-full cursor-pointer">
+                                        <BiLogOut className="w-4 h-4" /> Log Out
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )
                 }
                 <div className="flex items-center gap-3 md:hidden">
+                    {user && <NotificationBell userEmail={user?.email} />}
                     <svg onClick={() => setIsMenuOpen(!isMenuOpen)} className="h-6 w-6 text-slate-100 hover:text-brand-accent transition-colors duration-300 cursor-pointer" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <line x1="4" y1="6" x2="20" y2="6" />
                         <line x1="4" y1="12" x2="20" y2="12" />
