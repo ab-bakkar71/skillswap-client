@@ -73,3 +73,22 @@ export const summarizeAIProposal = async ({
   });
 };
 
+/**
+ * Auto-summarize a task, analyze scope, and recommend whether freelancer should bid
+ */
+export const summarizeAITask = async ({
+  title,
+  description,
+  category,
+  budget,
+  deadline,
+}) => {
+  return serverPost("/api/ai/summarize-task", {
+    title,
+    description,
+    category,
+    budget,
+    deadline,
+  });
+};
+

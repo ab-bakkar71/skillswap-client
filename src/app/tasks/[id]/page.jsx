@@ -1,4 +1,5 @@
 import SubmitProposal from '@/components/DashBoard/freelancer/SubmitProposal';
+import AITaskSummary from '@/components/AITaskSummary';
 import { getTaskById } from '@/lib/api/freelancer';
 import { getUserSession } from '@/lib/core/session';
 import { Card } from '@heroui/react';
@@ -60,6 +61,11 @@ const TaskDetailPage = async ({ params }) => {
                         {task.status === 'in-progress' && 'In Progress'}
                         {task.status === 'completed' && 'Completed'}
                     </span>
+                </div>
+
+                {/* AI Task Summary & Bidding Advisor */}
+                <div className="pt-2">
+                    <AITaskSummary task={task} />
                 </div>
 
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 mt-8'>
