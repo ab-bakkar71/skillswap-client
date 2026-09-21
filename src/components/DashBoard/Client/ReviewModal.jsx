@@ -1,7 +1,7 @@
 "use client";
 
 import { submitReview } from "@/lib/actions/review";
-import { Button, Modal, Surface, Textarea } from "@heroui/react";
+import { Button, Modal, Surface } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
@@ -135,12 +135,12 @@ const ReviewModal = ({ proposal }) => {
                   <label className="text-xs font-bold text-zinc-300 block">
                     Detailed Feedback <span className="text-rose-500">*</span>
                   </label>
-                  <Textarea
+                  <textarea
                     required
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Describe your experience: code quality, communication, adherence to deadlines, and overall satisfaction..."
-                    className="w-full text-xs"
+                    className="w-full text-xs bg-zinc-900/70 border border-zinc-800 rounded-xl p-3 text-white placeholder:text-zinc-500 focus:outline-none focus:border-amber-500/60 transition-colors resize-y min-h-[100px]"
                     rows={4}
                   />
                   <p className="text-[11px] text-zinc-500">

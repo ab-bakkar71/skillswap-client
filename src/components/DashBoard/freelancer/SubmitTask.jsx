@@ -1,6 +1,6 @@
 "use client";
 import { submitTask } from '@/lib/actions/freelancer';
-import { Button, Input, Label, Modal, Surface, TextField, Textarea } from '@heroui/react';
+import { Button, Input, Label, Modal, Surface, TextField } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FiAlertCircle, FiSend } from 'react-icons/fi';
@@ -114,10 +114,10 @@ const SubmitTask = ({ proposal }) => {
                                             <Label className="text-sm font-semibold text-zinc-300">
                                                 Submission Notes (Optional)
                                             </Label>
-                                            <Textarea
+                                            <textarea
                                                 name="submissionNotes"
                                                 placeholder="Describe what was accomplished or instructions for accessing the deliverables..."
-                                                className="w-full text-xs"
+                                                className="w-full text-xs bg-zinc-900/70 border border-zinc-800 rounded-xl p-3 text-white placeholder:text-zinc-500 focus:outline-none focus:border-brand-accent transition-colors resize-y min-h-[80px]"
                                                 rows={3}
                                                 defaultValue={proposal?.submissionNotes || ""}
                                             />

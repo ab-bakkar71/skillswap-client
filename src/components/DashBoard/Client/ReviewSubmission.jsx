@@ -1,7 +1,7 @@
 "use client";
 
 import { approveDeliverable, requestRevision } from "@/lib/actions/client";
-import { Button, Modal, Surface, Textarea } from "@heroui/react";
+import { Button, Modal, Surface } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FiCheckCircle, FiExternalLink, FiRotateCcw } from "react-icons/fi";
@@ -132,12 +132,12 @@ const ReviewSubmission = ({ proposal }) => {
                     <label className="text-xs font-bold text-amber-400">
                       Revision Instructions for Freelancer:
                     </label>
-                    <Textarea
+                    <textarea
                       required
                       value={revisionNotes}
                       onChange={(e) => setRevisionNotes(e.target.value)}
                       placeholder="Explain specifically what needs to be fixed, added, or improved..."
-                      className="w-full text-xs"
+                      className="w-full text-xs bg-zinc-900/70 border border-zinc-800 rounded-xl p-3 text-white placeholder:text-zinc-500 focus:outline-none focus:border-amber-500/60 transition-colors resize-y min-h-[100px]"
                       rows={4}
                     />
                   </div>
