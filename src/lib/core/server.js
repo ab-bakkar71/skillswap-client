@@ -10,7 +10,8 @@ const baseUrl =
 const getAuthHeaders = async (customHeaders = {}) => {
   const headers = {
     "content-type": "application/json",
-    "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+    "x-internal-secret":
+      process.env.INTERNAL_API_SECRET || "skillswap_super_secret_internal_key_2026",
     ...customHeaders,
   };
 
