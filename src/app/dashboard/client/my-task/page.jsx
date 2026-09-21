@@ -1,14 +1,10 @@
 import MyTaskClient from "@/components/DashBoard/Client/MyTaskClient";
-import { getMyTask, getProposalById } from "@/lib/api/client";
+import { getMyTask, getProposal } from "@/lib/api/client";
 import { getUserSession } from "@/lib/core/session";
 
 const myTaskPage = async() => {
-
     const user = await getUserSession();
     const email = user?.email;
-
-    
-   
 
     if (!email) {
         return (
@@ -18,11 +14,13 @@ const myTaskPage = async() => {
         );
     }
     try {
-        const taskData = await getMyTask(email);
+        const [taskData, proposalData] = await Promise.all([
+            getMyTask(email),
+            getProposal(email)
+        ]);
         return (
             <div>
-               
-               <MyTaskClient tasks={taskData}/>
+               <MyTaskClient tasks={taskData} proposals={proposalData} />
             </div>
         );
     } catch (error) {

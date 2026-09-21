@@ -15,3 +15,7 @@ export const getProposal = async (email) => {
 export const getProposalById = async (id) => {
   return serverFetch(`/api/proposals/task/${id}`);
 };
+
+export const getClientPayments = async (email) => {
+  return serverFetch(`/api/payment/client/${email}`);
+};

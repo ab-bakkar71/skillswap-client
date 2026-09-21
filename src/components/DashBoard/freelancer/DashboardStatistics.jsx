@@ -8,25 +8,27 @@ import { MdCheckCircle } from 'react-icons/md';
 
 const DashboardStatistics = ({proposal}) => {
 
-    const totalProposalsCount = proposal?.length || 0;
+  const totalProposalsCount = Array.isArray(proposal) ? proposal.length : 0;
 
   const pendingCount = Array.isArray(proposal)
     ? proposal.filter(p => p?.status?.toLowerCase() === 'pending').length
     : 0;
 
-  const acceptedCount = Array.isArray(proposal)
+  const activeCount = Array.isArray(proposal)
     ? proposal.filter(p => p?.status?.toLowerCase() === 'accepted').length
     : 0;
 
-  // ২. 
+  const completedCount = Array.isArray(proposal)
+    ? proposal.filter(p => p?.status?.toLowerCase() === 'completed').length
+    : 0;
+
   const totalEarnings = Array.isArray(proposal)
     ? proposal
-        .filter(p => p?.status?.toLowerCase() === 'accepted')
+        .filter(p => p?.status?.toLowerCase() === 'accepted' || p?.status?.toLowerCase() === 'completed')
         .reduce((sum, p) => sum + (Number(p?.proposedBudget) || 0), 0)
     : 0;
 
-
-    const stats = [
+  const stats = [
     {
       id: 1,
       title: "Total Proposals",
@@ -45,8 +47,8 @@ const DashboardStatistics = ({proposal}) => {
     },
     {
       id: 3,
-      title: "Accepted Proposals",
-      value: acceptedCount,
+      title: "Active / Completed",
+      value: `${activeCount} / ${completedCount}`,
       icon: <MdCheckCircle className="w-5 h-5 text-indigo-400" />,
       glowColor: "hover:shadow-indigo-500/5",
       accentColor: "text-indigo-400"

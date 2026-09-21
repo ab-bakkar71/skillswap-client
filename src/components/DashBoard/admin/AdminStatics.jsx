@@ -4,7 +4,7 @@ import { BiBriefcase } from 'react-icons/bi';
 import { BsActivity } from 'react-icons/bs';
 import { FaDollarSign, FaUser, FaUserSecret } from 'react-icons/fa';
 
-const AdminStatics = async ({ data }) => {
+const AdminStatics = ({ data }) => {
 
   const stats = [
     {
@@ -21,7 +21,7 @@ const AdminStatics = async ({ data }) => {
     {
       id: 2,
       title: "Total Tasks",
-      value: data?.totalTasks,
+      value: data?.totalTasks || 0,
       percentage: "+8%",
       timeline: "vs last month",
       isPositive: true,
@@ -32,7 +32,7 @@ const AdminStatics = async ({ data }) => {
     {
       id: 3,
       title: "Total Revenue (USD)",
-      value: data?.totalRevenue,
+      value: data?.totalRevenue !== undefined ? `$${Number(data.totalRevenue).toLocaleString()}` : "$0",
       percentage: "82%",
       timeline: "adoption rate",
       isPositive: null,
@@ -43,7 +43,7 @@ const AdminStatics = async ({ data }) => {
     {
       id: 4,
       title: "Active Tasks",
-      value: data?.activeTasks,
+      value: data?.activeTasks || 0,
       percentage: "+15%",
       timeline: "vs last week",
       isPositive: true,

@@ -15,6 +15,15 @@ const DashboardStatsStatic = ({ task }) => {
     ? task.filter(t => t?.status?.toLowerCase() === 'in-progress').length
     : 0;
 
+  const completedTasksCount = Array.isArray(task)
+    ? task.filter(t => t?.status?.toLowerCase() === 'completed').length
+    : 0;
+
+  const totalSpent = Array.isArray(task)
+    ? task
+        .filter(t => t?.status?.toLowerCase() === 'in-progress' || t?.status?.toLowerCase() === 'completed')
+        .reduce((sum, t) => sum + (Number(t?.budget) || 0), 0)
+    : 0;
 
   const stats = [
     {
@@ -28,15 +37,15 @@ const DashboardStatsStatic = ({ task }) => {
     {
       id: 2,
       title: "Open Tasks",
-      value: openTasksCount || 0,
+      value: openTasksCount,
       icon: <BiFolderOpen className="w-5 h-5 text-amber-500" />,
       glowColor: "hover:shadow-amber-500/5",
       accentColor: "text-amber-400"
     },
     {
       id: 3,
-      title: "Tasks In Progress",
-      value: inProgressTasksCount || 0,
+      title: "Active / Completed",
+      value: `${inProgressTasksCount} / ${completedTasksCount}`,
       icon: <RiLoader2Fill className="w-5 h-5 text-indigo-400 animate-spin [animation-duration:4s]" />,
       glowColor: "hover:shadow-indigo-500/5",
       accentColor: "text-indigo-400"
@@ -44,7 +53,7 @@ const DashboardStatsStatic = ({ task }) => {
     {
       id: 4,
       title: "Total Spent (USD)",
-      value: "$5,500",
+      value: `$${totalSpent.toLocaleString()}`,
       icon: <FaDollarSign className="w-5 h-5 text-emerald-400" />,
       glowColor: "hover:shadow-emerald-500/5",
       accentColor: "text-emerald-400"

@@ -24,3 +24,7 @@ export const getProposal = async(email) => {
 export const getActiveProposal = async(email)=>{
         return serverFetch(`/api/active-task/${email}`)
 }
+
+export const getFreelancerEarnings = async (email) => {
+        return serverFetch(`/api/payment/freelancer/${email}`);
+};
