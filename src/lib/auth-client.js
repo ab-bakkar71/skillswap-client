@@ -8,6 +8,7 @@ export const authClient = createAuthClient({
             ? window.location.origin
             : process.env.NEXT_PUBLIC_BETTER_AUTH_URL ||
               process.env.BETTER_AUTH_URL ||
+              process.env.NEXT_BETTER_AUTH_URL ||
               (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
     plugins: [jwtClient()],
 });
