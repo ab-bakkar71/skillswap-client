@@ -1,5 +1,6 @@
 import Categories from "@/components/Categories";
 import CommunityHighlights from "@/components/CommunityHighlights";
+import FAQ from "@/components/FAQ";
 import FeaturedTasks from "@/components/FeaturedTasks";
 import Hero from "@/components/Hero";
 import HowItWork from "@/components/HowItWork";
@@ -16,6 +17,7 @@ export default function Home() {
     <PlatformBenefits/>
     <HowItWork/>
     <CommunityHighlights/>
+    <FAQ/>
     </>
   );
 }
