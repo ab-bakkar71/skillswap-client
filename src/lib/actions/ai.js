@@ -93,7 +93,7 @@ export const summarizeAITask = async ({
 };
 
 /**
- * Interactive conversation with SwapBot AI Assistant
+ * Interactive conversation with SwapAi Assistant
  */
 export const chatWithAIAssistant = async ({ message, history = [] }) => {
   if (!message || !message.trim()) {

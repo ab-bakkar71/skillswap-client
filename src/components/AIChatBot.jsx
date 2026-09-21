@@ -18,7 +18,7 @@ const DEFAULT_CHIPS = [
 const INITIAL_MESSAGE = {
   id: "welcome-1",
   sender: "bot",
-  text: "Hello! 👋 I'm **SwapBot**, your SkillSwap AI guide.\n\nWhether you want to find exciting tasks to bid on, need help drafting a task post, or want winning proposal strategies, I'm here to assist you!",
+  text: "Hello! 👋 I'm **SwapAi Assistant**, your SkillSwap AI guide.\n\nWhether you want to find exciting tasks to bid on, need help drafting a task post, or want winning proposal strategies, I'm here to assist you!",
   suggestedChips: DEFAULT_CHIPS,
 };
 
@@ -198,7 +198,7 @@ export default function AIChatBot() {
         {
           id: `bot-${prev.length + 1}`,
           sender: "bot",
-          text: "Something went wrong communicating with SwapBot. Please check your network connection.",
+          text: "Something went wrong communicating with SwapAi Assistant. Please check your network connection.",
           suggestedChips: DEFAULT_CHIPS,
         },
       ]);
@@ -239,7 +239,7 @@ export default function AIChatBot() {
 
             {/* Hover Tooltip */}
             <span className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-slate-900/90 backdrop-blur-md px-3 py-1.5 text-xs font-semibold text-violet-200 border border-violet-500/20 shadow-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100 hidden sm:block">
-              Chat with SwapBot ✨
+              Chat with SwapAi Assistant ✨
             </span>
           </button>
         )}
@@ -258,7 +258,7 @@ export default function AIChatBot() {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-bold text-white tracking-wide">SwapBot</h3>
+                  <h3 className="text-sm font-bold text-white tracking-wide">SwapAi Assistant</h3>
                   <span className="px-1.5 py-0.2 rounded-md bg-violet-500/20 text-violet-300 text-[10px] font-semibold border border-violet-500/30">
                     AI Assistant
                   </span>
@@ -320,7 +320,7 @@ export default function AIChatBot() {
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce [animation-delay:-0.3s]" />
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce [animation-delay:-0.15s]" />
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce" />
-                  <span className="ml-1 text-[11px] text-slate-400">SwapBot is typing...</span>
+                  <span className="ml-1 text-[11px] text-slate-400">SwapAi Assistant is typing...</span>
                 </div>
               </div>
             )}
@@ -357,7 +357,7 @@ export default function AIChatBot() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask SwapBot anything..."
+                placeholder="Ask SwapAi Assistant anything..."
                 disabled={isLoading}
                 className="flex-1 bg-slate-800/80 border border-slate-700/80 focus:border-violet-500 text-slate-100 placeholder:text-slate-500 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 focus:outline-none transition-colors"
               />
