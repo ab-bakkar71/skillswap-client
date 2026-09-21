@@ -36,9 +36,12 @@ const AllFreelancerClient = ({ freelancer }) => {
                             height={200}
                             alt="Profile Avatar"
                             className="w-full h-full rounded-full border border-zinc-800 object-cover shadow-lg"/>
-                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-zinc-900 border border-zinc-800 text-emerald-400 text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-md z-20">
-                            <IoMdStar className="text-amber-500 text-sm" />
-                            <span>5.0</span>
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-zinc-900 border border-zinc-800 text-amber-400 text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-md z-20">
+                            <IoMdStar className="text-amber-400 text-sm" />
+                            <span>{freelancer?.averageRating ? Number(freelancer.averageRating).toFixed(1) : "New"}</span>
+                            {Boolean(freelancer?.reviewCount) && (
+                                <span className="text-zinc-500 font-normal">({freelancer.reviewCount})</span>
+                            )}
                         </div>
                     </div>
 

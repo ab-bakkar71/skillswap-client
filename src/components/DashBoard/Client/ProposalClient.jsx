@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import RejectProposal from './RejectProposal';
 import ViewSubmission from '../freelancer/ViewSubmission';
 import ReviewSubmission from './ReviewSubmission';
+import ReviewModal from './ReviewModal';
 
 
 const ProposalClient = ({ proposals }) => {
@@ -147,7 +148,10 @@ const ProposalClient = ({ proposals }) => {
                                         ) : proposal.status === "submitted" ? (
                                             <ReviewSubmission proposal={proposal} />
                                         ) : proposal.status === "completed" ? (
-                                            <ViewSubmission proposal={proposal} />
+                                            <div className="flex items-center gap-2">
+                                                <ViewSubmission proposal={proposal} />
+                                                <ReviewModal proposal={proposal} />
+                                            </div>
                                         ) : (
                                             <>
                                                 <Button

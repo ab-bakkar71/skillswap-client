@@ -1,7 +1,10 @@
 import { getFreelancerById } from '@/lib/api/freelancer';
+import { getFreelancerReviews } from '@/lib/api/review';
+import FreelancerReviews from '@/components/FreelancerReviews';
 import { Avatar } from '@heroui/react';
 import Link from 'next/link';
 import React from 'react';
+import { FaStar } from 'react-icons/fa';
 
 export async function generateMetadata({ params }) {
     const { id } = await params;
@@ -32,6 +35,14 @@ const FreelancerDetailPage = async ({ params }) => {
         );
     }
 
+    const reviewData = freelancer?.email ? await getFreelancerReviews(freelancer.email) : null;
+    const displayRating = reviewData?.stats?.averageRating
+        ? reviewData.stats.averageRating.toFixed(1)
+        : freelancer?.averageRating
+        ? Number(freelancer.averageRating).toFixed(1)
+        : null;
+    const reviewCount = reviewData?.stats?.totalReviews ?? freelancer?.reviewCount ?? 0;
+
     const skillsList = Array.isArray(freelancer?.skills)
         ? freelancer.skills
         : typeof freelancer?.skills === "string" && freelancer.skills.trim()
@@ -52,9 +63,15 @@ const FreelancerDetailPage = async ({ params }) => {
                     <div className="lg:col-span-1 bg-zinc-900/40 border border-brand-border/60 rounded-3xl p-6 text-center backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-h-[450px]">
 
                         <h2 className="text-2xl font-bold tracking-tight mb-1">{freelancer?.name || "Freelancer"}</h2>
-                        <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 capitalize mb-6">
-                            {freelancer?.role || "freelancer"}
-                        </span>
+                        <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+                            <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 capitalize">
+                                {freelancer?.role || "freelancer"}
+                            </span>
+                            <span className="text-xs font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 flex items-center gap-1">
+                                <FaStar className="text-amber-400 text-xs" />
+                                <span>{displayRating ? `${displayRating} (${reviewCount})` : "New Talent"}</span>
+                            </span>
+                        </div>
                         <div className="relative group p-1.5 rounded-full bg-gradient-to-tr from-brand-accent to-fuchsia-500 shadow-2xl shadow-violet-500/10">
                             <div className="rounded-full bg-zinc-950 p-1">
                                 <Avatar className="w-48 h-48 md:w-56 md:h-56 text-large cursor-pointer object-cover rounded-full">
@@ -114,6 +131,12 @@ const FreelancerDetailPage = async ({ params }) => {
                     </div>
 
                 </div>
+
+                {/* Verified Reviews & Ratings Showcase */}
+                <FreelancerReviews
+                    reviews={reviewData?.reviews || []}
+                    stats={reviewData?.stats || null}
+                />
 
                 {/* Hire / Work Together CTA Banner */}
                 <div className="mt-8 p-6 md:p-8 rounded-3xl bg-gradient-to-r from-zinc-900/90 via-zinc-900/60 to-zinc-950 border border-brand-border/60 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-xl shadow-2xl">
