@@ -1,5 +1,6 @@
 import { getFreelancerById } from '@/lib/api/freelancer';
 import { Avatar } from '@heroui/react';
+import Link from 'next/link';
 import React from 'react';
 
 export async function generateMetadata({ params }) {
@@ -112,6 +113,30 @@ const FreelancerDetailPage = async ({ params }) => {
 
                     </div>
 
+                </div>
+
+                {/* Hire / Work Together CTA Banner */}
+                <div className="mt-8 p-6 md:p-8 rounded-3xl bg-gradient-to-r from-zinc-900/90 via-zinc-900/60 to-zinc-950 border border-brand-border/60 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-xl shadow-2xl">
+                    <div className="space-y-1 text-center md:text-left">
+                        <h3 className="text-xl font-bold text-white">Interested in working with {freelancer?.name || "this talent"}?</h3>
+                        <p className="text-sm text-zinc-400">Post a project with your budget and milestones, or reach out to discuss collaboration.</p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3">
+                        {freelancer?.email && (
+                            <a
+                                href={`mailto:${freelancer.email}`}
+                                className="px-5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-900/80 text-zinc-200 text-sm font-semibold hover:border-zinc-500 hover:text-white transition-colors"
+                            >
+                                Contact via Email
+                            </a>
+                        )}
+                        <Link
+                            href="/dashboard/client/post-task"
+                            className="px-6 py-2.5 rounded-xl bg-brand-accent text-zinc-950 font-bold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-brand-accent/10"
+                        >
+                            Post a Task & Hire
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

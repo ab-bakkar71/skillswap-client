@@ -58,3 +58,32 @@ export const rejectProposal = async (proposalId) => {
     clientEmail: user.email,
   });
 };
+
+export const approveDeliverable = async (proposalId) => {
+  const user = await getUserSession();
+  if (!user || !user.email) {
+    return { success: false, message: "Unauthorized: Please log in." };
+  }
+
+  return serverPatch(`/api/proposal/approve/${proposalId}`, {
+    clientEmail: user.email,
+    userRole: user.role,
+  });
+};
+
+export const requestRevision = async (proposalId, revisionNotes) => {
+  const user = await getUserSession();
+  if (!user || !user.email) {
+    return { success: false, message: "Unauthorized: Please log in." };
+  }
+
+  if (!revisionNotes || !String(revisionNotes).trim()) {
+    return { success: false, message: "Please provide revision notes explaining what needs improvement." };
+  }
+
+  return serverPatch(`/api/proposal/revision/${proposalId}`, {
+    revisionNotes: String(revisionNotes).trim(),
+    clientEmail: user.email,
+    userRole: user.role,
+  });
+};

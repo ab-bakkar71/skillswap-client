@@ -8,6 +8,7 @@ import { IoCalendarNumberOutline, IoCheckmarkSharp } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import RejectProposal from './RejectProposal';
 import ViewSubmission from '../freelancer/ViewSubmission';
+import ReviewSubmission from './ReviewSubmission';
 
 
 const ProposalClient = ({ proposals }) => {
@@ -87,14 +88,17 @@ const ProposalClient = ({ proposals }) => {
                                     <span
                                         className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${proposal.status === "pending"
                                             ? "bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse"
-                                            : proposal.status === "accepted"
-                                                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                                                : proposal.status === "completed"
-                                                    ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
-                                                    : "bg-rose-500/10 border-rose-500/30 text-rose-400"
+                                            : proposal.status === "submitted"
+                                                ? "bg-purple-500/10 border-purple-500/30 text-purple-400 animate-pulse"
+                                                : proposal.status === "accepted"
+                                                    ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                                                    : proposal.status === "completed"
+                                                        ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
+                                                        : "bg-rose-500/10 border-rose-500/30 text-rose-400"
                                             }`}
                                     >
                                         {proposal.status === "pending" && "Pending"}
+                                        {proposal.status === "submitted" && "Under Review"}
                                         {proposal.status === "accepted" && "Accepted"}
                                         {proposal.status === "completed" && "Completed"}
                                         {proposal.status === "rejected" && "Rejected"}
@@ -140,6 +144,8 @@ const ProposalClient = ({ proposals }) => {
                                                     isProcessing={isProcessing}
                                                 />
                                             </>
+                                        ) : proposal.status === "submitted" ? (
+                                            <ReviewSubmission proposal={proposal} />
                                         ) : proposal.status === "completed" ? (
                                             <ViewSubmission proposal={proposal} />
                                         ) : (

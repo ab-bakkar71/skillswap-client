@@ -2,6 +2,7 @@ import SubmitProposal from '@/components/DashBoard/freelancer/SubmitProposal';
 import { getTaskById } from '@/lib/api/freelancer';
 import { getUserSession } from '@/lib/core/session';
 import { Card } from '@heroui/react';
+import Link from 'next/link';
 import React from 'react';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline, IoMailOutline, IoTimeOutline } from 'react-icons/io5';
@@ -70,7 +71,7 @@ const TaskDetailPage = async ({ params }) => {
                         </p>
                     </Card>
 
-                    {/* Submit a Proposal */}
+                    {/* Submit a Proposal or Manage Task */}
                     <div>
                         {!user ? (
                             <div className="text-center p-6 bg-zinc-900/60 rounded-2xl border border-zinc-800 backdrop-blur-xl">
@@ -80,6 +81,24 @@ const TaskDetailPage = async ({ params }) => {
                                 <p className="text-zinc-400 text-xs">
                                     Please login with a freelancer account to submit a proposal for this task.
                                 </p>
+                            </div>
+                        ) : user.email === task.clientEmail ? (
+                            <div className="p-6 bg-zinc-900/60 rounded-2xl border border-brand-accent/30 backdrop-blur-xl text-center space-y-3">
+                                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-brand-accent/20 text-brand-accent font-bold text-lg mb-1">
+                                    ✓
+                                </div>
+                                <h4 className="text-white font-bold text-base">You posted this task</h4>
+                                <p className="text-zinc-400 text-xs max-w-sm mx-auto">
+                                    You are the owner of this task. You can review proposals, approve deliverables, and manage milestones from your client dashboard.
+                                </p>
+                                <div className="pt-2">
+                                    <Link
+                                        href={`/dashboard/client/my-task/${task._id}`}
+                                        className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-brand-accent text-zinc-950 font-bold text-sm hover:opacity-90 transition-opacity"
+                                    >
+                                        View Proposals & Manage
+                                    </Link>
+                                </div>
                             </div>
                         ) : user.role === "client" ? (
                             <div className="text-center p-6 bg-zinc-900/60 rounded-2xl border border-zinc-800 backdrop-blur-xl">

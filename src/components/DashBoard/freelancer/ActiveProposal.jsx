@@ -54,25 +54,44 @@ const ActiveProposal = ({ activeProposal }) => {
                 <Table.Cell>
                   <span
                     className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold border ${
-                      proposal.status === "accepted"
+                      proposal.status === "accepted" && proposal.revisionNotes
+                        ? "bg-amber-500/10 text-amber-400 border-amber-500/30 animate-pulse"
+                        : proposal.status === "accepted"
                         ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                        : proposal.status === "submitted"
+                        ? "bg-purple-500/10 text-purple-400 border-purple-500/30 animate-pulse"
                         : proposal.status === "completed"
                         ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                         : "bg-zinc-800 text-zinc-400 border-zinc-700"
                     }`}
                   >
-                    {proposal.status}
+                    {proposal.status === "accepted" && proposal.revisionNotes
+                      ? "Revision Needed"
+                      : proposal.status === "accepted"
+                      ? "In Progress"
+                      : proposal.status === "submitted"
+                      ? "Under Review"
+                      : proposal.status === "completed"
+                      ? "Completed"
+                      : proposal.status}
                   </span>
                 </Table.Cell>
 
                 <Table.Cell className="text-center">
-                  {proposal.status === "accepted" ? (
-                    <SubmitTask proposal={proposal} />
-                  ) : proposal.status === "completed" ? (
-                    <ViewSubmission proposal={proposal} />
-                  ) : (
-                    <span className="text-zinc-500 text-xs">--</span>
-                  )}
+                  <div className="flex items-center justify-center gap-2">
+                    {proposal.status === "accepted" ? (
+                      <SubmitTask proposal={proposal} />
+                    ) : proposal.status === "submitted" ? (
+                      <>
+                        <SubmitTask proposal={proposal} />
+                        <ViewSubmission proposal={proposal} />
+                      </>
+                    ) : proposal.status === "completed" ? (
+                      <ViewSubmission proposal={proposal} />
+                    ) : (
+                      <span className="text-zinc-500 text-xs">--</span>
+                    )}
+                  </div>
                 </Table.Cell>
               </Table.Row>
             ))}

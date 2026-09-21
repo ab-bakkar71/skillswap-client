@@ -47,7 +47,7 @@ export const postProposal = async (newProposal) => {
   return serverPost("/api/proposal", sanitizedProposal);
 };
 
-export const submitTask = async (proposalId, deliverableUrl) => {
+export const submitTask = async (proposalId, deliverableUrl, submissionNotes = "") => {
   const user = await getUserSession();
   if (!user || !user.email) {
     return { success: false, message: "Unauthorized: Please log in." };
@@ -57,8 +57,9 @@ export const submitTask = async (proposalId, deliverableUrl) => {
     return { success: false, message: "A valid deliverable URL (starting with http:// or https://) is required." };
   }
 
-  return serverPatch(`/api/proposal/complete/${proposalId}`, {
+  return serverPatch(`/api/proposal/submit-work/${proposalId}`, {
     deliverableUrl: deliverableUrl.trim(),
+    submissionNotes: submissionNotes ? String(submissionNotes).trim() : "",
     freelancerEmail: user.email,
   });
 };
