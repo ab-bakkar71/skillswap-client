@@ -14,9 +14,9 @@ const CATEGORIES = [
     { id: "data-entry", label: "Data Entry" },
 ];
 
-const BrowseTasksClient = ({ initialTasks = [] }) => {
+const BrowseTasksClient = ({ initialTasks = [], initialCategory = "all" }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [sortBy, setSortBy] = useState("newest"); // "newest", "budget-desc", "budget-asc"
 
     const tasks = useMemo(() => (Array.isArray(initialTasks) ? initialTasks : []), [initialTasks]);

@@ -1,3 +1,4 @@
+import Categories from "@/components/Categories";
 import CommunityHighlights from "@/components/CommunityHighlights";
 import FeaturedTasks from "@/components/FeaturedTasks";
 import Hero from "@/components/Hero";
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <>
     <Hero/>
+    <Categories/>
     <FeaturedTasks/>
     <TopFreelancers/>
     <HowItWork/>
