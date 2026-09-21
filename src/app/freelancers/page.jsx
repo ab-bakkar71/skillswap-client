@@ -1,35 +1,17 @@
-import AllFreelancerClient from '@/components/AllFreelancerClient';
+import BrowseFreelancersClient from '@/components/BrowseFreelancersClient';
 import { getFreelancer } from '@/lib/api/freelancer';
 import React from 'react';
+
+export const metadata = {
+    title: "Browse Freelancers | SkillSwap",
+    description: "Connect with expert developers, UI/UX designers, and freelance engineers. Filter by skills and hourly rates to hire top tech talent.",
+};
 
 const AllFreelancerPage = async () => {
     const rawFreelancers = await getFreelancer();
     const freelancers = Array.isArray(rawFreelancers) ? rawFreelancers : [];
     
-    return (
-        <section className='w-full max-w-7xl min-h-screen mx-auto px-4 py-8 text-white'>
-            <div className="mb-10 border-b border-zinc-900 pb-6 font-manrope">
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
-                    Explore Top Tech Talent
-                </h1>
-                <p className="text-xs md:text-sm text-zinc-500 mt-2 max-w-3xl leading-relaxed">
-                    Connect with expert developers, UI/UX designers, and freelancers from the SkillSwap community. Filter by skills, hourly rates, and find the perfect match for your next project.
-                </p>
-            </div>
-
-           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
-            {
-                freelancers.length > 0 ? (
-                    freelancers.map(freelancer => <AllFreelancerClient key={freelancer._id} freelancer={freelancer}/>)
-                ) : (
-                    <div className="col-span-full py-12 text-center text-zinc-500 font-medium">
-                        No freelancers found.
-                    </div>
-                )
-            }
-           </div>
-        </section>
-    );
+    return <BrowseFreelancersClient initialFreelancers={freelancers} />;
 };
 
 export default AllFreelancerPage;

@@ -6,19 +6,19 @@ const TaskCard = ({ task }) => {
     return (
         <Link href={`/tasks/${task._id}`}>
             <Card
-                className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5 hover:scale-105 transition-all duration-300 flex flex-col justify-between gap-5 group cursor-pointer"
+                className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5 transition-all duration-300 flex flex-col justify-between gap-5 group cursor-pointer"
                 variant="secondary"
             >
 
                 <div className="flex items-center justify-between w-full">
                     <span className="text-xs font-semibold bg-zinc-800/50 border border-zinc-700/40 text-zinc-300 px-2.5 py-1 rounded-full capitalize">
-                        {task.category.replace('-', ' ')}
+                        {task.category?.replace('-', ' ') || 'General'}
                     </span>
                     <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${task.status === 'open'
                         ? 'bg-blue-500/10 border-blue-500/30 text-blue-400 animate-pulse'
                         : task.status === 'in-progress'
-                            ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 animate-pulse'
-                            : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 animate-pulse'
+                            ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                            : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
                         }`}>
                         {task.status === 'open' && 'Open'}
                         {task.status === 'in-progress' && 'In Progress'}

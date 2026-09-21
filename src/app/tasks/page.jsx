@@ -1,35 +1,17 @@
-
-import TaskCard from '@/components/TaskCard';
+import BrowseTasksClient from '@/components/BrowseTasksClient';
 import { getTask } from '@/lib/api/freelancer';
 import React from 'react';
 
-const taskPage = async () => {
-    const rawTasks = await getTask();
-    const allTasks = Array.isArray(rawTasks) ? rawTasks : [];
-    return (
-        <section className='w-full max-w-7xl mx-auto px-4 py-8 text-white'>
-            <div className='mb-8 border-b border-zinc-800/60 pb-6'>
-                <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
-                    Discover Available Tasks
-                </h1>
-                <p className="text-xs md:text-sm text-zinc-400 mt-2 max-w-3xl leading-relaxed">
-                    Explore micro-tasks posted by clients worldwide. Filter by category, check the budget, and pitch your skills to start earning instantly.
-                </p>
-            </div>
-
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10'>
-                {
-                    allTasks.length > 0 ? (
-                        allTasks.map(task => <TaskCard key={task._id} task={task} />)
-                    ) : (
-                        <div className="col-span-full py-12 text-center text-zinc-500 font-medium">
-                            No open tasks available at the moment.
-                        </div>
-                    )
-                }
-            </div>
-        </section>
-    );
+export const metadata = {
+    title: "Browse Tasks | SkillSwap",
+    description: "Explore micro-tasks posted by clients worldwide. Filter by category, budget, and skills to start earning instantly.",
 };
 
-export default taskPage;
+const TaskPage = async () => {
+    const rawTasks = await getTask();
+    const allTasks = Array.isArray(rawTasks) ? rawTasks : [];
+    
+    return <BrowseTasksClient initialTasks={allTasks} />;
+};
+
+export default TaskPage;
