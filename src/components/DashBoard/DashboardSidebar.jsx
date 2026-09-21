@@ -126,7 +126,7 @@ export function DashboardSidebar() {
     return (
         <>
             {/* for small devices */}
-            <div className="lg:hidden h-auto w-full flex items-center gap-3 px-4 py-3 border-b border-default bg-background">
+            <div className="lg:hidden sticky top-0 z-30 h-auto w-full flex items-center gap-3 px-4 py-3 border-b border-default bg-background/90 backdrop-blur-xl">
                 <Drawer>
                     <Drawer.Trigger className="p-1.5 rounded-lg hover:bg-default transition-colors">
                         <IoMenu className="size-6" />
@@ -164,7 +164,7 @@ export function DashboardSidebar() {
             </div>
 
             {/* for desktop */}
-            <div className="hidden lg:flex h-screen flex-col justify-between border-r border-default w-64 shrink-0 p-4">
+            <div className="hidden lg:flex sticky top-0 h-screen flex-col justify-between border-r border-default w-64 shrink-0 p-4 bg-zinc-950/80 backdrop-blur-xl z-40 overflow-y-auto">
                 <div>
                     {logo}
                     <aside className="mt-6">
