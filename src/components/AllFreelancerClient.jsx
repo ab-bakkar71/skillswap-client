@@ -1,16 +1,16 @@
-"use client"
+"use client";
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { IoMdStar } from 'react-icons/io';
-import { IoStar } from 'react-icons/io5'; // ৫-স্টার রেটিং আইকনের জন্য
 
 const AllFreelancerClient = ({ freelancer }) => {
     const [visible, setVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
-    const divRef = React.useRef(null);
+    const divRef = useRef(null);
 
     const handleMouseMove = (e) => {
+        if (!divRef.current) return;
         const bounds = divRef.current.getBoundingClientRect();
         setPosition({ x: e.clientX - bounds.left, y: e.clientY - bounds.top });
     };
@@ -43,24 +43,22 @@ const AllFreelancerClient = ({ freelancer }) => {
                     </div>
 
                     <h2 className="text-xl font-extrabold text-white tracking-tight line-clamp-1">
-                        {freelancer?.name || "Richard Nelson"}
+                        {freelancer?.name || "Professional Freelancer"}
                     </h2>
                     <p className="text-xs text-brand-accent font-bold tracking-wide uppercase mt-1 mb-2">
                         Hourly Rate: ${freelancer?.hourlyRate || 0}/hr
                     </p>
                 </div>
 
-           
                 <p className="text-xs text-zinc-400 px-2 leading-relaxed line-clamp-2 mb-4">
                     {freelancer?.bio || "Passionate about clean code, scalable systems, and solving real-world problems with elegant software."}
                 </p>
 
-                
                 <div className="w-full">
                     <Link href={`/freelancers/${freelancer._id}`}>
-                    <button className="w-full bg-zinc-900 border border-zinc-800 hover:border-brand-accent text-zinc-100 hover:text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all duration-300 shadow-lg shadow-black/40 hover:shadow-violet-500/10 active:scale-[0.98] cursor-pointer">
-                        View Profile
-                    </button>
+                        <button className="w-full bg-zinc-900 border border-zinc-800 hover:border-brand-accent text-zinc-100 hover:text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all duration-300 shadow-lg shadow-black/40 hover:shadow-violet-500/10 active:scale-[0.98] cursor-pointer">
+                            View Profile
+                        </button>
                     </Link>
                 </div>
 

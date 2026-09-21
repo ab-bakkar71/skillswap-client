@@ -6,22 +6,38 @@ import React from 'react';
 import { IoLogoUsd } from 'react-icons/io';
 import { IoCalendarNumberOutline, IoMailOutline, IoTimeOutline } from 'react-icons/io5';
 
-const taskById = async ({ params }) => {
+export async function generateMetadata({ params }) {
+    const { id } = await params;
+    const task = await getTaskById(id);
+    if (!task) {
+        return {
+            title: "Task Not Found - SkillSwap",
+        };
+    }
+    return {
+        title: `${task.title} - SkillSwap`,
+        description: task.description ? task.description.slice(0, 160) : "View task details and submit a proposal on SkillSwap.",
+    };
+}
+
+const TaskDetailPage = async ({ params }) => {
     const { id } = await params;
     const task = await getTaskById(id);
     const user = await getUserSession();
 
-
     if (!task) {
         return (
-            <div className="min-h-screen bg-black text-zinc-400 flex items-center justify-center font-manrope">
-                Task not found!
+            <div className="min-h-[70vh] flex flex-col items-center justify-center font-manrope text-white text-center px-4">
+                <h2 className="text-2xl font-bold mb-2">Task Not Found</h2>
+                <p className="text-zinc-400 text-sm max-w-md">
+                    The task you are looking for does not exist or has been deleted.
+                </p>
             </div>
         );
     }
 
     return (
-        <section className='w-full max-w-7xl min-h-screen mx-auto px-4 py-8 text-white'>
+        <section className='w-full max-w-7xl min-h-screen mx-auto px-4 py-8 text-white font-manrope'>
             {/* title, category, status */}
             <div className="space-y-3">
                 <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white leading-tight">
@@ -30,7 +46,7 @@ const taskById = async ({ params }) => {
 
                 <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs font-semibold bg-zinc-900 border border-zinc-800 text-zinc-300 px-3 py-1 rounded-full capitalize">
-                        {task.category?.replace('-', ' ')}
+                        {task.category ? String(task.category).replace(/-/g, ' ') : 'General'}
                     </span>
 
                     <span className={`text-xs font-bold px-3 py-1 rounded-full border shadow-sm transition-all duration-200 ${task.status === 'open'
@@ -55,18 +71,23 @@ const taskById = async ({ params }) => {
                     </Card>
 
                     {/* Submit a Proposal */}
-
                     <div>
                         {!user ? (
-                            <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
-                                <p className="text-yellow-500 text-sm">
-                                    Please login as a freelancer to submit a proposal.
+                            <div className="text-center p-6 bg-zinc-900/60 rounded-2xl border border-zinc-800 backdrop-blur-xl">
+                                <p className="text-amber-400 text-sm font-semibold mb-2">
+                                    Login to Apply
+                                </p>
+                                <p className="text-zinc-400 text-xs">
+                                    Please login with a freelancer account to submit a proposal for this task.
                                 </p>
                             </div>
                         ) : user.role === "client" ? (
-                            <div className="text-center p-4 bg-zinc-900 rounded-xl border border-zinc-800">
-                                <p className="text-red-500 text-sm">
-                                    Clients cannot submit proposals.
+                            <div className="text-center p-6 bg-zinc-900/60 rounded-2xl border border-zinc-800 backdrop-blur-xl">
+                                <p className="text-amber-400 text-sm font-semibold mb-2">
+                                    Client Account
+                                </p>
+                                <p className="text-zinc-400 text-xs">
+                                    You are currently logged in as a Client. Clients cannot submit proposals.
                                 </p>
                             </div>
                         ) : (
@@ -95,7 +116,7 @@ const taskById = async ({ params }) => {
                                 </div>
                                 <div>
                                     <p className="text-xs text-zinc-500 font-medium">Deadline</p>
-                                    <p className="text-sm font-bold text-zinc-200">{task.deadline}</p>
+                                    <p className="text-sm font-bold text-zinc-200">{task.deadline || "Flexible"}</p>
                                 </div>
                             </div>
 
@@ -107,7 +128,7 @@ const taskById = async ({ params }) => {
                                 <div>
                                     <p className="text-xs text-zinc-500 font-medium">Posted</p>
                                     <p className="text-sm font-bold text-zinc-200">
-                                        {task.createAt ? new Date(task.createAt).toLocaleDateString('en-GB') : "N/A"}
+                                        {task.createAt || task.createdAt ? new Date(task.createAt || task.createdAt).toLocaleDateString('en-GB') : "Recently"}
                                     </p>
                                 </div>
                             </div>
@@ -129,9 +150,8 @@ const taskById = async ({ params }) => {
                 </div>
             </div>
 
-
         </section>
     );
 };
 
-export default taskById;
+export default TaskDetailPage;

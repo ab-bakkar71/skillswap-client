@@ -23,11 +23,11 @@ const FeaturedTasks = async () => {
 
                                     <div className="flex items-center justify-between w-full">
                                         <span className="text-xs font-semibold bg-zinc-800/50 border border-zinc-700/40 text-zinc-300 px-2.5 py-1 rounded-full capitalize">
-                                            {task.category.replace('-', ' ')}
+                                            {task?.category ? String(task.category).replace(/-/g, ' ') : 'General'}
                                         </span>
 
                                         <span className="text-xs text-zinc-400 font-medium">
-                                            {task.deadline}
+                                            {task?.deadline || "Flexible"}
                                         </span>
 
                                     </div>
@@ -35,21 +35,21 @@ const FeaturedTasks = async () => {
 
                                     <div className="space-y-2 flex-1 w-full">
                                         <h2 className="text-base md:text-lg font-extrabold text-zinc-100 group-hover:text-brand-accent transition-colors tracking-tight line-clamp-1">
-                                            {task.title}
+                                            {task?.title}
                                         </h2>
                                         <p className="text-sm md:text-md text-zinc-400 leading-relaxed line-clamp-2">
-                                            {task.clientName}
+                                            {task?.clientName || task?.clientEmail}
                                         </p>
                                     </div>
 
                                     <div className="flex items-center justify-between w-full pt-2">
 
                                         <span className="text-lg md:text-xl font-extrabold text-violet-500 tracking-wide">
-                                            ${task.budget}
+                                            ${task?.budget || 0}
                                         </span>
 
                                         <span className="text-xs text-zinc-500 font-medium truncate max-w-[180px] sm:max-w-none">
-                                            {task.clientEmail}
+                                            {task?.clientEmail}
                                         </span>
                                     </div>
                                 </Card>

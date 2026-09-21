@@ -3,6 +3,7 @@ import { Button, Card } from '@heroui/react';
 import Link from 'next/link';
 import React from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
+import { serverPost } from '@/lib/core/server';
 
 const paymentSuccessPage = async ({ searchParams }) => {
   const { session_id } = await searchParams;
@@ -50,13 +51,7 @@ const paymentSuccessPage = async ({ searchParams }) => {
   };
 
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-session`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(paymentData)
-    });
+    await serverPost('/api/confirm-session', paymentData);
   } catch (err) {
     console.error("Failed to confirm session on server:", err);
   }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Button, Drawer } from "@heroui/react";
 import Link from "next/link";
@@ -17,8 +17,7 @@ export function DashboardSidebar() {
 
     const { data: session } = authClient.useSession();
     const user = session?.user;
-    const role = user?.role || 'client'
-
+    const role = user?.role || 'client';
 
     const dashBoardItems = {
         "freelancer":
@@ -27,28 +26,27 @@ export function DashboardSidebar() {
                 { icon: IoIosSearch, href: "/tasks", label: "Browse Tasks" },
                 { icon: GoProjectRoadmap, href: "/dashboard/freelancer/active-project", label: "Active Project" },
                 { icon: FaRegFileAlt, href: "/dashboard/freelancer/proposals", label: "My Proposals" },
-                { icon: PiCurrencyDollarBold, href: "/dashboard/freelancer/earn", label: "Earn" },
+                { icon: PiCurrencyDollarBold, href: "/dashboard/freelancer/earn", label: "Earnings" },
                 { icon: FaRegUserCircle, href: "/dashboard/freelancer/profile", label: "Profile" },
             ],
         "client":
             [
                 { icon: MdOutlineDashboard, href: "/dashboard/client", label: "Overview" },
                 { icon: CiCirclePlus, href: "/dashboard/client/post-task", label: "Post Task" },
-                { icon: GoTasklist, href: "/dashboard/client/my-task", label: "My Task" },
+                { icon: GoTasklist, href: "/dashboard/client/my-task", label: "My Tasks" },
                 { icon: GoInbox , href: "/dashboard/client/proposal", label: "Proposals" },
-                { icon: PiCurrencyDollarBold, href: "/dashboard/client/payment", label: "Payment" },
+                { icon: PiCurrencyDollarBold, href: "/dashboard/client/payment", label: "Payments" },
                 { icon: FaRegUserCircle, href: "/dashboard/client/profile", label: "Profile" },
             ],
         "admin":
             [
                 { icon: MdOutlineDashboard, href: "/dashboard/admin", label: "Overview" },
-                { icon: LuUsers, href: "/dashboard/admin/user", label: "user" },
-                { icon: GoTasklist, href: "/dashboard/admin/task", label: "Task" },
-                { icon: PiCurrencyDollarBold, href: "/dashboard/admin/payment", label: "Payment" },
-
+                { icon: LuUsers, href: "/dashboard/admin/user", label: "Users" },
+                { icon: GoTasklist, href: "/dashboard/admin/task", label: "Tasks" },
+                { icon: PiCurrencyDollarBold, href: "/dashboard/admin/payment", label: "Payments" },
+                { icon: FaRegUserCircle, href: "/dashboard/admin/profile", label: "Profile" },
             ],
-
-    }
+    };
 
     const navItems = dashBoardItems[role] || [];
 
@@ -87,7 +85,7 @@ export function DashboardSidebar() {
                     <Avatar.Fallback>{user?.name ? user.name[0].toUpperCase() : "U"}</Avatar.Fallback>
                 </Avatar>
                 <div>
-                    <h3 className="text-sm font-medium text-foreground leading-tight">{user?.name}</h3>
+                    <h3 className="text-sm font-medium text-foreground leading-tight">{user?.name || "User"}</h3>
                     <span
                         className={`inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded-full capitalize ${roleStyles[role] ?? "bg-zinc-500/15 text-zinc-400"
                             }`}
@@ -97,13 +95,11 @@ export function DashboardSidebar() {
                 </div>
             </div>
 
-            <Button onClick={handelLogOut} variant="tertiary" className="text-muted hover:text-red-500 p-1.5">
+            <Button onClick={handelLogOut} variant="tertiary" className="text-muted hover:text-red-500 p-1.5 cursor-pointer">
                 <IoIosLogOut className="size-5" />
             </Button>
         </div>
     );
-
-
 
     const logo = (
         <div>
