@@ -14,16 +14,9 @@ export async function middleware(request) {
     }
   }
 
-  // 2. Auth routes: /login, /register (redirect away if already logged in)
-  if (pathname === "/login" || pathname === "/register") {
-    if (sessionCookie) {
-      return NextResponse.redirect(new URL("/dashboard/client", request.url));
-    }
-  }
-
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/register"],
+  matcher: ["/dashboard/:path*"],
 };

@@ -11,11 +11,24 @@ import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 
 const LoginPage = () => {
-
-    const router = useRouter()
+    const router = useRouter();
+    const { data: session, isPending } = authClient.useSession();
 
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    React.useEffect(() => {
+        if (!isPending && session?.user) {
+            const userRole = session.user.role;
+            if (userRole === "admin") {
+                router.replace("/dashboard/admin");
+            } else if (userRole === "freelancer") {
+                router.replace("/dashboard/freelancer");
+            } else {
+                router.replace("/dashboard/client");
+            }
+        }
+    }, [session, isPending, router]);
 
     const handelLogin = async (e) => {
         e.preventDefault();
