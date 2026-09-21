@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ToastContainer } from "react-toastify";
 import Footer from "@/components/Footer";
+import AIChatBot from "@/components/AIChatBot";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
         </div>
 
         <Footer />
+        <AIChatBot />
         <ToastContainer />
       </body>
     </html>

@@ -92,3 +92,31 @@ export const summarizeAITask = async ({
   });
 };
 
+/**
+ * Interactive conversation with SwapBot AI Assistant
+ */
+export const chatWithAIAssistant = async ({ message, history = [] }) => {
+  if (!message || !message.trim()) {
+    return { success: false, message: "Please enter a message." };
+  }
+
+  let userEmail = "";
+  let userRole = "";
+  try {
+    const user = await getUserSession();
+    if (user) {
+      userEmail = user.email || "";
+      userRole = user.role || "";
+    }
+  } catch (err) {
+    // Guest visitor is fine
+  }
+
+  return serverPost("/api/ai/chat", {
+    message: message.trim(),
+    history,
+    userEmail,
+    userRole,
+  });
+};
+
