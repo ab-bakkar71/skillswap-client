@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, Modal, Surface } from "@heroui/react";
 import Link from "next/link";
 import {
@@ -9,14 +9,46 @@ import {
   IoLogoUsd,
   IoCalendarOutline,
   IoMailOutline,
-  IoTimeOutline,
   IoOpenOutline,
   IoAlertCircleOutline,
   IoCheckmarkCircleOutline,
+  IoSparkles,
+  IoBulbOutline,
+  IoTrendingUpOutline,
+  IoShieldCheckmarkOutline,
 } from "react-icons/io5";
+import { summarizeAIProposal } from "@/lib/actions/ai";
+import { toast } from "react-toastify";
 
 export default function ViewProposalModal({ proposal }) {
+  const [aiSummary, setAiSummary] = useState(null);
+  const [isSummarizing, setIsSummarizing] = useState(false);
+
   if (!proposal) return null;
+
+  const handleGenerateSummary = async () => {
+    setIsSummarizing(true);
+    try {
+      const res = await summarizeAIProposal({
+        taskTitle: proposal.taskTitle,
+        proposedBudget: proposal.proposedBudget,
+        estimatedDays: proposal.estimatedDays,
+        coverNote: proposal.coverNote,
+        status: proposal.status,
+      });
+
+      if (res?.success && res?.data) {
+        setAiSummary(res.data);
+        toast.success("AI Proposal Summary generated! ✨");
+      } else {
+        toast.error(res?.message || "Failed to generate summary.");
+      }
+    } catch (_err) {
+      toast.error("Error generating AI summary.");
+    } finally {
+      setIsSummarizing(false);
+    }
+  };
 
   return (
     <Modal>
@@ -125,6 +157,94 @@ export default function ViewProposalModal({ proposal }) {
                     {proposal.clientEmail || "N/A"}
                   </p>
                 </div>
+              </div>
+
+              {/* AI Proposal Summary Section */}
+              <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-950/40 via-purple-950/20 to-zinc-950/60 p-4 space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="p-1 rounded-lg bg-violet-600/30 text-violet-300">
+                      <IoSparkles className="w-4 h-4 text-violet-300 animate-pulse" />
+                    </span>
+                    <h4 className="text-xs sm:text-sm font-bold text-white tracking-wide">
+                      AI Proposal Summary & Strategy
+                    </h4>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleGenerateSummary}
+                    disabled={isSummarizing}
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-violet-600 hover:bg-violet-500 text-white shadow-sm shadow-violet-500/20 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <IoSparkles className={`w-3 h-3 ${isSummarizing ? "animate-spin" : ""}`} />
+                    <span>{isSummarizing ? "Analyzing..." : aiSummary ? "Re-analyze" : "Generate Summary ✨"}</span>
+                  </button>
+                </div>
+
+                {aiSummary ? (
+                  <div className="space-y-3 animate-in fade-in duration-300">
+                    {/* Executive Pitch */}
+                    <div className="p-3 rounded-xl bg-zinc-950/70 border border-violet-500/20">
+                      <span className="text-[10px] text-violet-400 font-bold uppercase tracking-wider block mb-1">
+                        Executive Pitch Summary
+                      </span>
+                      <p className="text-xs text-zinc-200 leading-relaxed font-medium">
+                        {aiSummary.executiveSummary}
+                      </p>
+                    </div>
+
+                    {/* Strengths & Win Score */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <div className="sm:col-span-2 p-2.5 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                        <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider flex items-center gap-1 mb-1.5">
+                          <IoShieldCheckmarkOutline className="w-3.5 h-3.5 text-emerald-400" />
+                          Key Proposal Strengths
+                        </span>
+                        <ul className="space-y-1">
+                          {aiSummary.keyStrengths?.map((str, idx) => (
+                            <li key={idx} className="text-[11px] text-zinc-300 flex items-start gap-1.5 leading-snug">
+                              <span className="text-emerald-400 font-bold">•</span>
+                              <span>{str}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-zinc-950/60 border border-zinc-800/80 flex flex-col justify-between text-center sm:text-left">
+                        <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider flex items-center gap-1">
+                          <IoTrendingUpOutline className="w-3.5 h-3.5 text-brand-accent" />
+                          Match Rating
+                        </span>
+                        <div className="my-1">
+                          <span className="text-2xl font-black text-brand-accent">
+                            {aiSummary.competitivenessScore}%
+                          </span>
+                          <span className="text-[10px] text-zinc-400 block font-medium">
+                            Competitive Bid
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Win Strategy Coaching Tip */}
+                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
+                      <IoBulbOutline className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                      <div>
+                        <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">
+                          AI Coach Tip for Winning
+                        </span>
+                        <p className="text-[11px] text-amber-200/90 leading-relaxed mt-0.5">
+                          {aiSummary.winStrategyTip}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-zinc-400 leading-relaxed">
+                    Click <strong className="text-violet-300">Generate Summary ✨</strong> to get an instant AI executive breakdown of this proposal, pitch strengths, and winning strategy tips.
+                  </p>
+                )}
               </div>
 
               {/* Revision Notes Alert if requested */}

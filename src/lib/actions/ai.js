@@ -48,3 +48,28 @@ export const generateAIProposal = async ({
     freelancerName: user.name || "Freelancer",
   });
 };
+
+/**
+ * Auto-summarize a submitted proposal and analyze win strategy using AI
+ */
+export const summarizeAIProposal = async ({
+  taskTitle,
+  proposedBudget,
+  estimatedDays,
+  coverNote,
+  status,
+}) => {
+  const user = await getUserSession();
+  if (!user || !user.email) {
+    return { success: false, message: "Please log in to use AI assistant." };
+  }
+
+  return serverPost("/api/ai/summarize-proposal", {
+    taskTitle,
+    proposedBudget,
+    estimatedDays,
+    coverNote,
+    status,
+  });
+};
+
