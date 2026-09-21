@@ -8,12 +8,13 @@ import { IoIosLogOut } from 'react-icons/io';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { BiLogOut } from 'react-icons/bi';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { data: session } = authClient.useSession();
     const user = session?.user;
+    const router = useRouter();
 
     const pathName = usePathname()
     if(pathName.includes("dashboard")){
@@ -23,6 +24,8 @@ const Navbar = () => {
 
     const handelLogOut = async () => {
         await authClient.signOut();
+        router.refresh();
+        router.push("/");
     }
 
 
@@ -72,8 +75,8 @@ const Navbar = () => {
                                 </Avatar>
                             </button>
 
-                            <div className='absolute right-0 top-12 w-40 rounded-lg shadow-2xl hidden group-hover:flex flex-col py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#161616] text-slate-200 border-slate-800/60'>
-                                <Link href={`/dashboard/${user?.role}`} className="px-4 py-2 text-sm flex items-center gap-3 transition-colors text-white hover:text-white hover:bg-violet-600">
+                            <div className='absolute right-0 top-12 w-40 rounded-lg shadow-2xl hidden group-hover:flex flex-col py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#161616] text-slate-200 border border-slate-800/60'>
+                                <Link href={`/dashboard/${user?.role || 'client'}`} className="px-4 py-2 text-sm flex items-center gap-3 transition-colors text-white hover:text-white hover:bg-violet-600">
                                     <LuLayoutDashboard className="w-4 h-4" /> Dashboard
                                 </Link>
                                 <button onClick={handelLogOut} className="px-4 py-2 text-sm text-red-500 flex items-center gap-3 transition-colors text-left hover:bg-violet-600 w-full cursor-pointer">
@@ -90,32 +93,58 @@ const Navbar = () => {
                         <line x1="4" y1="18" x2="20" y2="18" />
                     </svg>
                 </div>
-                <div className={`fixed top-0 left-0 w-full h-screen bg-brand-bg text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-slate-200 transition-all duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-                    <button className="absolute top-5 right-5 text-slate-400 hover:text-brand-accent hover:scale-110 transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
+                <div className={`fixed top-0 left-0 w-full h-screen bg-brand-bg text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-slate-200 transition-all duration-500 z-50 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+                    <button className="absolute top-5 right-5 text-slate-400 hover:text-brand-accent hover:scale-110 transition-all duration-300 cursor-pointer" onClick={() => setIsMenuOpen(false)}>
                         <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <line x1="18" y1="6" x2="6" y2="18" />
                             <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </button>
 
-                    <NavLinks />
+                    <div onClick={() => setIsMenuOpen(false)}>
+                        <NavLinks />
+                    </div>
 
+                    {
+                        !user ? (
+                            <>
+                                <Link
+                                    href="/login"
+                                    className="border border-brand-accent/50 text-slate-200 hover:text-white hover:bg-brand-accent/10 px-10 py-3 rounded-full font-semibold w-2/3 max-w-xs text-center transition-all mt-4"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Login
+                                </Link>
 
-                    <Link
-                        href="/login"
-                        className="border border-brand-accent/50 text-slate-200 hover:text-white hover:bg-brand-accent/10 px-10 py-3 rounded-full font-semibold w-2/3 max-w-xs text-center transition-all mt-4"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Login
-                    </Link>
-
-                    <Link
-                        href="/register"
-                        className="bg-brand-accent text-white px-10 py-3 rounded-full font-semibold w-2/3 max-w-xs shadow-lg shadow-violet-500/20 hover:bg-violet-600 text-center transition-all"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Get Started
-                    </Link>
+                                <Link
+                                    href="/register"
+                                    className="bg-brand-accent text-white px-10 py-3 rounded-full font-semibold w-2/3 max-w-xs shadow-lg shadow-violet-500/20 hover:bg-violet-600 text-center transition-all"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Get Started
+                                </Link>
+                            </>
+                        ) : (
+                            <div className="flex flex-col items-center gap-3 w-2/3 max-w-xs mt-4">
+                                <Link
+                                    href={`/dashboard/${user?.role || 'client'}`}
+                                    className="w-full bg-brand-accent text-white py-3 rounded-full font-semibold shadow-lg shadow-violet-500/20 hover:bg-violet-600 text-center transition-all flex items-center justify-center gap-2"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <LuLayoutDashboard className="w-4 h-4" /> Dashboard
+                                </Link>
+                                <button
+                                    onClick={async () => {
+                                        setIsMenuOpen(false);
+                                        await handelLogOut();
+                                    }}
+                                    className="w-full border border-rose-500/40 text-rose-400 hover:bg-rose-500/10 py-3 rounded-full font-semibold text-center transition-all flex items-center justify-center gap-2 cursor-pointer"
+                                >
+                                    <BiLogOut className="w-4 h-4" /> Log Out
+                                </button>
+                            </div>
+                        )
+                    }
                 </div>
             </nav>
         </>

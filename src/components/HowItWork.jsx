@@ -27,7 +27,7 @@ const HowItWork = () => {
         
             <div className="text-center mb-20 animate-in fade-in duration-700">
                 <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
-                    Let's See How it Works
+                    Let&apos;s See How it Works
                 </h2>
                 <p className="text-sm text-slate-400 mt-2 max-w-md mx-auto">
                     Follow these 3 simple steps to get your quick micro-tasks completed instantly.

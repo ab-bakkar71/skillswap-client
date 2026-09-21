@@ -66,7 +66,7 @@ const UserManagementTable = ({ users, currentUser }) => {
                                             {/* Role */}
                                             <Table.Cell>
                                                 <span
-                                                    className={`text-[11px] font-bold px-3 py-1 rounded-md border${user.role === "admin"
+                                                    className={`text-[11px] font-bold px-3 py-1 rounded-md border ${user.role === "admin"
                                                             ? "bg-purple-500/10 border-purple-500/30 text-purple-400"
                                                             : user.role === "client"
                                                                 ? "bg-blue-500/10 border-blue-500/30 text-blue-400"

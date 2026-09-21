@@ -10,7 +10,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 
-const loginPage = () => {
+const LoginPage = () => {
 
     const router = useRouter()
 
@@ -161,4 +161,4 @@ const loginPage = () => {
     );
 };
 
-export default loginPage;
+export default LoginPage;

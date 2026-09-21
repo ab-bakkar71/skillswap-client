@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FaArrowRight, FaAward, FaCheckCircle, FaStar } from 'react-icons/fa';
@@ -26,7 +27,7 @@ const CommunityHighlights = () => {
             </div>
 
 
-            <div className="w-full max-w-4xl mx-auto p-6 md:p-10 bg-brand-nav/40 backdrop-blur-xl border border-brand-border/60 rounded-3xl shadow-2xl shadow-violet-500/5 relative group hover:border-brand-accent/50 transition-all duration-500">
+            <div className="relative w-full max-w-4xl mx-auto rounded-3xl p-8 md:p-10 border border-brand-border/60 bg-brand-card/40 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-brand-accent/50 group">
 
 
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-accent/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -36,9 +37,11 @@ const CommunityHighlights = () => {
 
                     <div className="relative flex-shrink-0">
                         <div className="w-28 h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden border-2 border-brand-accent/40 shadow-lg shadow-violet-500/20 group-hover:border-brand-accent transition-colors duration-300">
-                            <img
+                            <Image
                                 src={topWorker.image}
                                 alt={topWorker.name}
+                                width={128}
+                                height={128}
                                 className="w-full h-full object-cover"
                             />
                         </div>

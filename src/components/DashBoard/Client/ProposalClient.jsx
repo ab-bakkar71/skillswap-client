@@ -37,7 +37,7 @@ const ProposalClient = ({ proposals }) => {
             if (data.url) {
                 toast.success("Redirecting to secure payment checkout... 💳");
 
-                window.location.href = data.url;
+                window.location.assign(data.url);
             } else {
                 toast.error(data.error || "Failed to create checkout session.");
             }

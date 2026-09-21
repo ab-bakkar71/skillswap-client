@@ -1,29 +1,41 @@
-"use client"
+"use client";
 import { submitTask } from '@/lib/actions/freelancer';
 import { Button, Input, Label, Modal, Surface, TextField } from '@heroui/react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-const SubmitTask = ({proposal}) => {
+const SubmitTask = ({ proposal }) => {
     const router = useRouter();
-    const handleSubmit = async(e) => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
         const formData = new FormData(e.currentTarget);
-        const deliveryUrl = Object.fromEntries(formData.entries());
-        
-        const result = await submitTask(proposal._id, deliveryUrl.deliverableUrl);
-        if (result && (result.success || result.modifiedCount > 0 || result.matchedCount > 0)) { 
-            toast.success(result.message || "Task marked as completed successfully! 🎉"); 
-            router.push('/dashboard/freelancer/active-project');
-            router.refresh();
-        } else {
-            toast.error(result?.message || "Failed to submit task deliverable.");
+        const deliverableUrl = formData.get("deliverableUrl")?.toString().trim();
+
+        if (!deliverableUrl) {
+            toast.error("Please enter a deliverable URL.");
+            return;
         }
 
+        setIsLoading(true);
+        try {
+            const result = await submitTask(proposal._id, deliverableUrl);
+            if (result && (result.success || result.modifiedCount > 0 || result.matchedCount > 0)) {
+                toast.success(result.message || "Task marked as completed successfully! 🎉");
+                router.push('/dashboard/freelancer/active-project');
+                router.refresh();
+            } else {
+                toast.error(result?.message || "Failed to submit task deliverable.");
+            }
+        } catch (error) {
+            toast.error("Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-    }
     return (
         <div>
             <Modal>
@@ -59,6 +71,7 @@ const SubmitTask = ({proposal}) => {
                                     <form className="space-y-5" onSubmit={handleSubmit}>
 
                                         <TextField
+                                            isRequired
                                             className="w-full"
                                             name="deliverableUrl"
                                             type="text"
@@ -71,6 +84,7 @@ const SubmitTask = ({proposal}) => {
                                             <Input
                                                 placeholder="https://docs.google.com/document/d/..."
                                                 className="w-full"
+                                                required
                                             />
                                         </TextField>
 
@@ -95,10 +109,10 @@ const SubmitTask = ({proposal}) => {
                                                 Cancel
                                             </Button>
                                             <Button
-                                                slot="close"
                                                 type="submit"
+                                                isDisabled={isLoading}
                                                 className="flex-1 h-11 rounded-xl bg-emerald-600 font-semibold text-white hover:bg-emerald-500">
-                                                ✓ Mark as Completed
+                                                {isLoading ? "Submitting..." : "✓ Mark as Completed"}
                                             </Button>
                                         </Modal.Footer>
                                     </form>

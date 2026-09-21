@@ -1,4 +1,4 @@
-import { Card, Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
+import { Card } from '@heroui/react';
 import React from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { IoLogoUsd } from 'react-icons/io';
@@ -23,7 +23,7 @@ const ProposalTable = ({ proposals }) => {
                     proposals.map((proposal) => (
                         <Card
                             key={proposal._id}
-                            className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5 hover:scale-105 transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer"
+                            className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5 transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer"
                             variant="secondary"
                         >
                             <div className="flex items-start justify-between gap-4 w-full">
@@ -68,7 +68,7 @@ const ProposalTable = ({ proposals }) => {
 
 
 
-                                    <div className="text-xs flex items-center gap-.5 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md font-semibold">
+                                    <div className="text-xs flex items-center gap-1 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md font-semibold">
                                         Budget Bid : <IoLogoUsd />
                                         <span>{proposal.proposedBudget}</span>
                                     </div>

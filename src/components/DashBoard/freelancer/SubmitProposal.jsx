@@ -12,9 +12,28 @@ const SubmitProposal = ({ task, user }) => {
 
   const handelProposal = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+
+    if (task.clientEmail === user.email) {
+      toast.error("You cannot submit a proposal to your own task!");
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
+    const budget = Number(data.proposedBudget);
+    const days = Number(data.estimatedDays);
+
+    if (!budget || budget <= 0) {
+      toast.error("Proposed budget must be greater than 0.");
+      return;
+    }
+
+    if (!days || days <= 0) {
+      toast.error("Estimated days must be at least 1 day.");
+      return;
+    }
+
+    setIsLoading(true);
 
     const finalData = {
       taskId: task._id,
@@ -24,24 +43,27 @@ const SubmitProposal = ({ task, user }) => {
       freelancerName: user.name,
       freelancerEmail: user.email,
       freelancerImage: user.image || "",
-      proposedBudget: Number(data.proposedBudget),
-      estimatedDays: Number(data.estimatedDays),
+      proposedBudget: budget,
+      estimatedDays: days,
       coverNote: data.coverNote,
       status: "pending",
     };
 
-    const res = await postProposal(finalData);
+    try {
+      const res = await postProposal(finalData);
 
-    // backend api call
-    if (res.result?.insertedId) {
-      toast.success("Proposal submitted successfully!");
-      router.push("/dashboard/freelancer/proposals");
-    } else {
-      toast.error(res.message);
+      if (res?.result?.insertedId || res?.success) {
+        toast.success("Proposal submitted successfully! 🚀");
+        router.push("/dashboard/freelancer/proposals");
+      } else {
+        toast.error(res?.message || "Failed to submit proposal.");
+      }
+    } catch (err) {
+      toast.error("Failed to submit proposal. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false)
-
-  }
+  };
 
 
   return (

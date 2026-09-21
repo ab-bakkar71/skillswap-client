@@ -19,7 +19,7 @@ const MyTaskClient = ({ tasks }) => {
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-full">
                 {
                     tasks.map((task, i) => (
-                        <Link key={i} href={`/dashboard/client/my-task/${task._id}`}>
+                        <Link key={task._id || i} href={`/dashboard/client/my-task/${task._id}`}>
                         <Card
                             className="w-full bg-zinc-900/20 border border-zinc-800/80 hover:border-brand-accent/40 rounded-2xl p-5 md:p-6 backdrop-blur-xl hover:shadow-xl hover:shadow-violet-500/5  transition-all duration-300 flex flex-col justify-between gap-4 group cursor-pointer"
                             variant="secondary"
@@ -53,7 +53,7 @@ const MyTaskClient = ({ tasks }) => {
                                 <div className="flex flex-wrap items-center gap-3 md:gap-4">
 
                                     <span className="text-xs font-semibold bg-zinc-800/40 border border-zinc-700/50 text-zinc-300 px-2.5 py-1 rounded-md capitalize">
-                                        {task.category.replace('-', ' ')}
+                                        {task.category?.replace('-', ' ') || 'General'}
                                     </span>
 
 
